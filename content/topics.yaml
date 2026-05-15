@@ -1,0 +1,73 @@
+# Topic manifest. Controls sidebar order and titles.
+# Each topic points to its directory under content/.
+
+topics:
+  - num: 1
+    slug: topic-01-ai-technical-fundamentals
+    title_en: "AI Technical Fundamentals"
+    title_zh: "AI 技术基础"
+    subtitle_en: "Tokens, training, hallucinations, sampling, model types"
+    subtitle_zh: "Token、训练、幻觉、采样、模型类型"
+
+  - num: 2
+    slug: topic-02-models-and-providers
+    title_en: "Models and Providers"
+    title_zh: "模型与厂商"
+    subtitle_en: "Frontier labs, model tiers, benchmarks, selection"
+    subtitle_zh: "前沿实验室、模型层级、基准、选型"
+
+  - num: 3
+    slug: topic-03-prompting
+    title_en: "Prompting"
+    title_zh: "Prompt 工程"
+    subtitle_en: "System prompts, few shot, structured output, failure modes"
+    subtitle_zh: "System prompt、few shot、结构化输出、失败模式"
+
+  - num: 4
+    slug: topic-04-retrieval-augmented-generation
+    title_en: "Retrieval Augmented Generation"
+    title_zh: "检索增强生成 (RAG)"
+    subtitle_en: "RAG basics, pipeline, vector DBs, chunking, when not to use"
+    subtitle_zh: "RAG 基础、pipeline、vector DB、chunking、不适用情形"
+
+  - num: 5
+    slug: topic-05-agents
+    title_en: "Agents"
+    title_zh: "Agents"
+    subtitle_en: "Tools, single vs multi agent, planning, failure modes"
+    subtitle_zh: "工具、单 agent 与多 agent、规划、失败模式"
+
+  - num: 6
+    slug: topic-06-fine-tuning
+    title_en: "Fine Tuning"
+    title_zh: "Fine Tuning"
+    subtitle_en: "Prompting vs RAG vs fine tuning, SFT, DPO, LoRA, distillation"
+    subtitle_zh: "Prompting、RAG、fine tuning 对比,SFT、DPO、LoRA、蒸馏"
+
+  - num: 7
+    slug: topic-07-evaluations
+    title_en: "Evaluations"
+    title_zh: "评估 (Evals)"
+    subtitle_en: "Demo trap, eval types, golden datasets, regression, online evals"
+    subtitle_zh: "Demo 陷阱、评估类型、黄金数据集、回归测试、在线评估"
+
+  - num: 8
+    slug: topic-08-infrastructure-and-stack
+    title_en: "Infrastructure and Stack"
+    title_zh: "基础设施与技术栈"
+    subtitle_en: "Reference stack, orchestration, hosting, latency, observability"
+    subtitle_zh: "参考栈、编排、托管、延迟、可观察性"
+
+  - num: 9
+    slug: topic-09-cost-and-unit-economics
+    title_en: "Cost and Unit Economics"
+    title_zh: "成本与单位经济"
+    subtitle_en: "Token pricing, tiering, caching, batch vs real time, CPUM"
+    subtitle_zh: "Token 定价、分层、缓存、批处理 vs 实时、CPUM"
+
+  - num: 10
+    slug: topic-10-safety-security-and-risk
+    title_en: "Safety, Security, and Risk"
+    title_zh: "安全、保密与风险"
+    subtitle_en: "Prompt injection, privacy, IP, hallucination in regulated, responsible AI"
+    subtitle_zh: "Prompt injection、隐私、IP、监管幻觉、负责任 AI"
