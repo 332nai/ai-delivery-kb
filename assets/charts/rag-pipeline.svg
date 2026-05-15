@@ -1,0 +1,114 @@
+<svg viewBox="0 0 720 380" xmlns="http://www.w3.org/2000/svg" class="kb-chart" role="img" aria-label="RAG pipeline diagram">
+  <style>
+    .kb-chart text { font-family: var(--sans, system-ui), sans-serif; fill: var(--ink, #1a1a1a); }
+    .kb-chart .node { fill: none; stroke: var(--ink, #1a1a1a); stroke-width: 1; }
+    .kb-chart .node-label { font-size: 13px; font-weight: 500; }
+    .kb-chart .node-num { font-size: 10px; letter-spacing: 0.14em; font-weight: 600; fill: var(--accent, #a83232); }
+    .kb-chart .node-sub { font-size: 11px; fill: var(--ink-muted, #8a8580); font-style: italic; }
+    .kb-chart .arrow { stroke: var(--accent, #a83232); stroke-width: 1.25; fill: none; }
+    .kb-chart .arrowhead { fill: var(--accent, #a83232); }
+    .kb-chart .phase-label { font-size: 10px; letter-spacing: 0.18em; fill: var(--ink-muted, #8a8580); font-weight: 600; }
+    .kb-chart .io-label { font-size: 11px; fill: var(--ink, #1a1a1a); font-weight: 500; }
+    .kb-chart .io-sub { font-size: 10px; fill: var(--ink-muted, #8a8580); font-style: italic; }
+    .kb-chart .divider { stroke: var(--rule, #d8d2c4); stroke-width: 1; stroke-dasharray: 3,3; }
+    .kb-chart .zh { display: none; }
+    [data-lang="zh"] .kb-chart .en { display: none; }
+    [data-lang="zh"] .kb-chart .zh { display: inline; }
+    [data-lang="zh"] .kb-chart .node-sub,
+    [data-lang="zh"] .kb-chart .io-sub { font-style: normal; }
+  </style>
+
+  <defs>
+    <marker id="rag-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+  </defs>
+
+  <text x="40" y="32" class="phase-label">
+    <tspan class="en">OFFLINE · BUILT ONCE PER CORPUS</tspan>
+    <tspan class="zh">离线 · 每个语料库构建一次</tspan>
+  </text>
+
+  <rect x="40" y="56" width="180" height="68" class="node"/>
+  <text x="52" y="78" class="node-num">01</text>
+  <text x="52" y="98" class="node-label">Chunking</text>
+  <text x="52" y="114" class="node-sub">
+    <tspan class="en">split documents</tspan>
+    <tspan class="zh">切分文档</tspan>
+  </text>
+
+  <line x1="220" y1="90" x2="270" y2="90" class="arrow" marker-end="url(#rag-arrow)"/>
+
+  <rect x="280" y="56" width="180" height="68" class="node"/>
+  <text x="292" y="78" class="node-num">02</text>
+  <text x="292" y="98" class="node-label">Embedding</text>
+  <text x="292" y="114" class="node-sub">
+    <tspan class="en">text → vector</tspan>
+    <tspan class="zh">文本 → 向量</tspan>
+  </text>
+
+  <line x1="460" y1="90" x2="510" y2="90" class="arrow" marker-end="url(#rag-arrow)"/>
+
+  <rect x="520" y="56" width="180" height="68" class="node"/>
+  <text x="532" y="78" class="node-num">03</text>
+  <text x="532" y="98" class="node-label">Vector store</text>
+  <text x="532" y="114" class="node-sub">
+    <tspan class="en">indexed for search</tspan>
+    <tspan class="zh">建立索引</tspan>
+  </text>
+
+  <path d="M 610 124 L 610 170 L 130 170 L 130 215" class="arrow" marker-end="url(#rag-arrow)" fill="none" stroke-linejoin="miter"/>
+
+  <line x1="40" y1="195" x2="700" y2="195" class="divider"/>
+
+  <text x="40" y="218" class="phase-label">
+    <tspan class="en">ONLINE · RUN FOR EVERY USER QUERY</tspan>
+    <tspan class="zh">在线 · 每次用户查询都运行</tspan>
+  </text>
+
+  <rect x="40" y="240" width="180" height="68" class="node"/>
+  <text x="52" y="262" class="node-num">04</text>
+  <text x="52" y="282" class="node-label">Retrieval</text>
+  <text x="52" y="298" class="node-sub">
+    <tspan class="en">find top K chunks</tspan>
+    <tspan class="zh">找出最相关的 K 块</tspan>
+  </text>
+
+  <line x1="220" y1="274" x2="270" y2="274" class="arrow" marker-end="url(#rag-arrow)"/>
+
+  <rect x="280" y="240" width="180" height="68" class="node"/>
+  <text x="292" y="262" class="node-num">05</text>
+  <text x="292" y="282" class="node-label">Reranking</text>
+  <text x="292" y="298" class="node-sub">
+    <tspan class="en">reorder by relevance</tspan>
+    <tspan class="zh">按相关性重排</tspan>
+  </text>
+
+  <line x1="460" y1="274" x2="510" y2="274" class="arrow" marker-end="url(#rag-arrow)"/>
+
+  <rect x="520" y="240" width="180" height="68" class="node"/>
+  <text x="532" y="262" class="node-num">06</text>
+  <text x="532" y="282" class="node-label">Generation</text>
+  <text x="532" y="298" class="node-sub">
+    <tspan class="en">LLM writes answer</tspan>
+    <tspan class="zh">LLM 生成回答</tspan>
+  </text>
+
+  <text x="40" y="345" class="io-label">
+    <tspan class="en">User question</tspan>
+    <tspan class="zh">用户问题</tspan>
+  </text>
+  <text x="40" y="360" class="io-sub">
+    <tspan class="en">enters at step 04</tspan>
+    <tspan class="zh">从第 04 步进入</tspan>
+  </text>
+
+  <text x="700" y="345" class="io-label" text-anchor="end">
+    <tspan class="en">Grounded answer</tspan>
+    <tspan class="zh">有依据的回答</tspan>
+  </text>
+  <text x="700" y="360" class="io-sub" text-anchor="end">
+    <tspan class="en">with citations</tspan>
+    <tspan class="zh">带引用来源</tspan>
+  </text>
+</svg>

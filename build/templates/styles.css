@@ -935,3 +935,25 @@ body {
   .article-title { font-size: 28px; }
   [data-lang="zh"] .article-title { font-size: 26px; }
 }
+
+/* === Charts === */
+/* Wrapper around inline SVG charts that come from {{chart: name}} transclusion */
+.kb-chart-wrap {
+  margin: 28px 0 36px;
+  max-width: 780px;
+}
+.kb-chart-wrap svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.kb-chart-missing {
+  padding: 20px;
+  background: var(--accent-bg);
+  border: 1px dashed var(--accent);
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 13px;
+  border-radius: 4px;
+  margin: 20px 0;
+}

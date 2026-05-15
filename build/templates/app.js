@@ -125,6 +125,21 @@ function parseMarkdown(text) {
     if (line.trim() === '') { flushList(); i++; continue; }
     if (line.startsWith('### ')) { flushList(); html += '<h3>' + inline(line.slice(4)) + '</h3>\n'; i++; continue; }
 
+    // Raw HTML block: a line that starts with a block-level tag at column 0.
+    // We pass it through unchanged until we hit a blank line. This is how
+    // chart transclusions ({{chart: name}} -> inline SVG wrapper) survive.
+    if (/^<(div|svg|figure|section|aside|table|nav|details|p|blockquote|pre)\b/.test(line)) {
+      flushList();
+      let buf = line;
+      i++;
+      while (i < lines.length && lines[i].trim() !== '') {
+        buf += '\n' + lines[i];
+        i++;
+      }
+      html += buf + '\n';
+      continue;
+    }
+
     flushList();
     let para = line;
     i++;

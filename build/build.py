@@ -17,6 +17,33 @@ ROOT = Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content"
 SITE = ROOT / "site"
 DOCS = ROOT / "docs"
+ASSETS = ROOT / "assets"
+
+
+# ---------- Chart transclusion ----------
+
+CHART_PATTERN = re.compile(r"\{\{\s*chart:\s*([\w\-]+)\s*\}\}")
+
+
+def transclude_charts(body, path):
+    """Replace {{chart: name}} markers with the inline SVG from assets/charts/name.svg.
+    
+    The SVG is wrapped in a <div class="kb-chart-wrap"> so the page can style placement.
+    We strip blank lines from the SVG content because the runtime markdown parser
+    uses blank lines as block separators and would otherwise break the SVG apart.
+    """
+    def repl(match):
+        name = match.group(1)
+        svg_path = ASSETS / "charts" / f"{name}.svg"
+        if not svg_path.exists():
+            print(f"  WARN {path.name}: chart not found: {name}.svg", file=sys.stderr)
+            return f'<div class="kb-chart-missing">Chart missing: {name}</div>'
+        svg = svg_path.read_text(encoding="utf-8")
+        # Remove blank lines inside the SVG (they would split the parser's HTML block)
+        svg = "\n".join(line for line in svg.splitlines() if line.strip())
+        return f'\n<div class="kb-chart-wrap">\n{svg}\n</div>\n'
+    
+    return CHART_PATTERN.sub(repl, body)
 
 # ---------- Tiny YAML reader for our flat topics.yaml ----------
 
@@ -98,6 +125,10 @@ def parse_item_file(path):
     # Extract ::: en ... ::: and ::: zh ... ::: blocks
     body_en = _extract_block(body, "en", path)
     body_zh = _extract_block(body, "zh", path)
+    
+    # Resolve chart references {{chart: name}} -> inline SVG
+    body_en = transclude_charts(body_en, path)
+    body_zh = transclude_charts(body_zh, path)
     
     return fm, body_en, body_zh
 
