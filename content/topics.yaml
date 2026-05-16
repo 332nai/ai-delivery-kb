@@ -71,3 +71,47 @@ topics:
     title_zh: "安全、保密与风险"
     subtitle_en: "Prompt injection, privacy, IP, hallucination in regulated, responsible AI"
     subtitle_zh: "Prompt injection、隐私、IP、监管幻觉、负责任 AI"
+
+  # ===== Volume II: Project Delivery 101 =====
+
+  - num: 11
+    slug: topic-11-project-shaping
+    title_en: "Project Shaping"
+    title_zh: "项目塑形"
+    subtitle_en: "Reading the SOW, week one questions, use cases, delivery modes, when not to start"
+    subtitle_zh: "读 SOW、第一周该问的问题、use case 拆分、交付模式、何时该说不启动"
+
+  - num: 12
+    slug: topic-12-requirements-that-survive-llms
+    title_en: "Requirements That Survive LLMs"
+    title_zh: "能挺过 LLM 现实的需求"
+    subtitle_en: "Input-output tables, evals as spec, the 99% conversation, three column workshops, what v1 will not do"
+    subtitle_zh: "输入-输出表、evals 作为规格、99% 的对话、三栏 workshop、v1 不做清单"
+
+  - num: 13
+    slug: topic-13-scope-management-under-hype
+    title_en: "Scope Management Under Hype"
+    title_zh: "在炒作环境下管范围"
+    subtitle_en: "Creep vs evolution vs correction, the one more use case ask, change requests, parking lot, executive additions"
+    subtitle_zh: "creep vs evolution vs correction、再加一个 use case、change request、parking lot、高管加范围"
+
+  - num: 14
+    slug: topic-14-risk-and-dependency-mapping
+    title_en: "Risk and Dependency Mapping"
+    title_zh: "风险和依赖识别"
+    subtitle_en: "Twelve common risks, control vs influence vs track, data critical path, engaging legal and security early, the risk register"
+    subtitle_zh: "十二种常见风险、控制 vs 影响 vs 跟踪、数据关键路径、早期 engage 法务和安全、风险登记表"
+
+  - num: 15
+    slug: topic-15-stakeholder-mapping-and-working-rhythms
+    title_en: "Stakeholder Mapping and Working Rhythms"
+    title_zh: "干系人地图和工作节奏"
+    subtitle_en: "Mapping sponsors and users and blockers and influencers, designing cadence, decision vs status meetings, shadow stakeholders, sponsor-IT disagreement"
+    subtitle_zh: "Map sponsor 用户 阻断者 影响者、设计节奏、决策会 vs 汇报会、影子 stakeholder、sponsor 和 IT 分歧"
+
+  - num: 16
+    slug: topic-16-delivery-rhythm-and-velocity-signals
+    title_en: "Delivery Rhythm and Velocity Signals"
+    title_zh: "交付节奏与速度信号"
+    subtitle_en: "The S curve, five weekly health signals, right thing vs thing right, team morale as leading indicator, when to stop and redo"
+    subtitle_zh: "S 曲线、五个每周健康信号、做对的事 vs 把事做对、团队士气作为先行指标、何时停下重做"

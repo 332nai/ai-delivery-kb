@@ -976,7 +976,7 @@ body {
 
   <aside class="sidebar">
     <div class="brand">
-      <div class="brand-mark">Vol. I &middot; Topic 1</div>
+      <div class="brand-mark" id="brandMark">A field manual</div>
       <div class="brand-title">AI Delivery</div>
       <div class="brand-title">Knowledge Base</div>
       <div class="brand-title-zh">AI 交付知识库</div>
@@ -1000,7 +1000,7 @@ body {
       </div>
     </div>
 
-    <div class="nav-meta" id="navMeta">Ten topics &middot; Fifty one items</div>
+    <div class="nav-meta" id="navMeta"></div>
 
     <ul class="topic-list" id="topicList"></ul>
   </aside>
@@ -1023,10 +1023,8 @@ const STRINGS = {
   en: {
     brandLine1: 'AI Delivery',
     brandLine2: 'Knowledge Base',
-    navMeta: 'Ten topics &middot; Fifty one items',
     eyebrow: 'A field manual',
     welcomeTitle: 'A practical reference for <em>AI delivery</em> work',
-    welcomeSubtitle: 'Definitions, decision points, watch outs, and stories from the field. Fifty one items across ten topics.',
     welcomeDesc: 'Each item follows a consistent template: a working definition, why it matters in delivery, how it actually works, the decision points a product manager owns, common watch outs, a one line takeaway, and a story drawn from aviation operations. Read it linearly, or jump to a topic. Switch between English and \u4e2d\u6587 at any time.',
     browseTopics: 'Browse topics',
     items: 'items',
@@ -1040,10 +1038,8 @@ const STRINGS = {
   zh: {
     brandLine1: 'AI \u4ea4\u4ed8',
     brandLine2: '\u77e5\u8bc6\u5e93',
-    navMeta: '\u5341\u4e2a\u4e3b\u9898 &middot; \u4e94\u5341\u4e00\u4e2a\u6761\u76ee',
     eyebrow: '\u4e00\u672c\u73b0\u573a\u624b\u518c',
     welcomeTitle: '\u4e00\u4efd\u5173\u4e8e <em>AI \u4ea4\u4ed8</em> \u5de5\u4f5c\u7684\u5b9e\u7528\u53c2\u8003',
-    welcomeSubtitle: '\u5b9a\u4e49\u3001\u51b3\u7b56\u70b9\u3001\u6ce8\u610f\u4e8b\u9879,\u4ee5\u53ca\u6765\u81ea\u73b0\u573a\u7684\u6848\u4f8b\u3002\u5341\u4e2a\u4e3b\u9898,\u4e94\u5341\u4e00\u4e2a\u6761\u76ee\u3002',
     welcomeDesc: '\u6bcf\u4e2a\u6761\u76ee\u9075\u5faa\u4e00\u81f4\u7684\u7ed3\u6784: \u5b9a\u4e49\u3001\u4e3a\u4f55\u5728\u4ea4\u4ed8\u4e2d\u91cd\u8981\u3001\u8fd0\u4f5c\u539f\u7406\u3001PM \u51b3\u7b56\u70b9\u3001\u6ce8\u610f\u4e8b\u9879\u3001\u8981\u70b9\u603b\u7ed3,\u4ee5\u53ca\u4e00\u4e2a\u6765\u81ea\u822a\u7a7a\u8fd0\u8425\u7684\u6848\u4f8b\u3002\u53ef\u4ee5\u6309\u987a\u5e8f\u9605\u8bfb,\u4e5f\u53ef\u4ee5\u76f4\u63a5\u8df3\u8f6c\u5230\u611f\u5174\u8da3\u7684\u4e3b\u9898\u3002\u968f\u65f6\u5728\u82f1\u6587\u548c\u4e2d\u6587\u4e4b\u95f4\u5207\u6362\u3002',
     browseTopics: '\u6d4f\u89c8\u4e3b\u9898',
     items: '\u4e2a\u6761\u76ee',
@@ -1055,6 +1051,25 @@ const STRINGS = {
     themeLabel: '\u98ce\u683c'
   }
 };
+
+// Numbers in the brand strip and welcome subtitle are derived from KB, not hardcoded.
+function getNavMeta() {
+  const topicCount = KB.length;
+  const itemCount = KB.reduce((acc, t) => acc + t.items.length, 0);
+  if (currentLang === 'en') {
+    return `${topicCount} topics &middot; ${itemCount} items`;
+  }
+  return `${topicCount} \u4e2a\u4e3b\u9898 &middot; ${itemCount} \u4e2a\u6761\u76ee`;
+}
+
+function getWelcomeSubtitle() {
+  const topicCount = KB.length;
+  const itemCount = KB.reduce((acc, t) => acc + t.items.length, 0);
+  if (currentLang === 'en') {
+    return `Definitions, decision points, watch outs, and stories from the field. ${itemCount} items across ${topicCount} topics.`;
+  }
+  return `\u5b9a\u4e49\u3001\u51b3\u7b56\u70b9\u3001\u6ce8\u610f\u4e8b\u9879,\u4ee5\u53ca\u6765\u81ea\u73b0\u573a\u7684\u6848\u4f8b\u3002${topicCount} \u4e2a\u4e3b\u9898,${itemCount} \u4e2a\u6761\u76ee\u3002`;
+}
 
 const THEMES = {
   editorial: { en: 'Editorial', zh: '\u6742\u5fd7' },
@@ -1245,7 +1260,9 @@ function renderSidebar() {
 
   document.querySelectorAll('.brand-title')[0].textContent = getStr('brandLine1');
   document.querySelectorAll('.brand-title')[1].textContent = getStr('brandLine2');
-  document.getElementById('navMeta').innerHTML = getStr('navMeta');
+  document.getElementById('navMeta').innerHTML = getNavMeta();
+  const bm = document.getElementById('brandMark');
+  if (bm) bm.textContent = getStr('eyebrow');
   document.getElementById('langLabel').textContent = getStr('langLabel');
   document.getElementById('themeLabel').textContent = getStr('themeLabel');
   // Update theme button labels
@@ -1273,7 +1290,7 @@ function renderWelcome() {
   w.innerHTML = `
     <div class="welcome-eyebrow">${getStr('eyebrow')}</div>
     <h1 class="welcome-title">${getStr('welcomeTitle')}</h1>
-    <p class="welcome-subtitle">${getStr('welcomeSubtitle')}</p>
+    <p class="welcome-subtitle">${getWelcomeSubtitle()}</p>
     <div class="welcome-rule"></div>
     <p class="welcome-desc">${getStr('welcomeDesc')}</p>
     <div class="nav-meta" style="margin-bottom: 14px;">${getStr('browseTopics')}</div>

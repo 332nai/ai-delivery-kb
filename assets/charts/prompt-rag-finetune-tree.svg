@@ -1,0 +1,113 @@
+<svg viewBox="0 0 720 400" xmlns="http://www.w3.org/2000/svg" class="kb-chart" role="img" aria-label="Decision tree for choosing between prompting, RAG, and fine tuning">
+  <style>
+    .kb-chart text { font-family: var(--sans, system-ui), sans-serif; fill: var(--ink, #1a1a1a); }
+    .kb-chart .question { fill: none; stroke: var(--ink, #1a1a1a); stroke-width: 1; }
+    .kb-chart .leaf { fill: var(--accent, #a83232); opacity: 1; fill-opacity: 0.10; stroke: var(--accent, #a83232); stroke-width: 1.25; }
+    .kb-chart .q-num { font-size: 10px; letter-spacing: 0.14em; font-weight: 600; fill: var(--ink-muted, #8a8580); }
+    .kb-chart .q-text { font-size: 12px; font-weight: 500; fill: var(--ink, #1a1a1a); }
+    .kb-chart .leaf-label { font-size: 13px; font-weight: 700; fill: var(--accent, #a83232); }
+    .kb-chart .leaf-sub { font-size: 10px; fill: var(--ink-muted, #8a8580); font-style: italic; }
+    .kb-chart .branch { stroke: var(--ink, #1a1a1a); stroke-width: 1; fill: none; }
+    .kb-chart .branch-yes { stroke: var(--accent, #a83232); stroke-width: 1.25; fill: none; }
+    .kb-chart .branch-label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; fill: var(--ink-muted, #8a8580); }
+    .kb-chart .branch-label-yes { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; fill: var(--accent, #a83232); }
+    .kb-chart .title-tag { font-size: 10px; letter-spacing: 0.18em; fill: var(--ink-muted, #8a8580); font-weight: 600; }
+    .kb-chart .footnote { font-size: 10px; fill: var(--ink-muted, #8a8580); font-style: italic; }
+    .kb-chart .zh { display: none; }
+    [data-lang="zh"] .kb-chart .en { display: none; }
+    [data-lang="zh"] .kb-chart .zh { display: inline; }
+    [data-lang="zh"] .kb-chart .leaf-sub,
+    [data-lang="zh"] .kb-chart .footnote { font-style: normal; }
+  </style>
+  <text x="40" y="28" class="title-tag">
+    <tspan class="en">DECISION TREE · PROMPT FIRST · FINE TUNE LAST</tspan>
+    <tspan class="zh">决策树 · 先 PROMPT · 最后 FINE TUNE</tspan>
+  </text>
+  <rect x="260" y="56" width="200" height="60" class="question"/>
+  <text x="272" y="76" class="q-num">Q1</text>
+  <text x="360" y="92" class="q-text" text-anchor="middle">
+    <tspan class="en">Can prompting alone</tspan>
+    <tspan class="zh">单靠 prompt</tspan>
+  </text>
+  <text x="360" y="107" class="q-text" text-anchor="middle">
+    <tspan class="en">get it 80% right?</tspan>
+    <tspan class="zh">能做到 80% 吗?</tspan>
+  </text>
+  <path d="M 360 116 L 360 145 L 150 145 L 150 170" class="branch-yes"/>
+  <text x="250" y="138" class="branch-label-yes">
+    <tspan class="en">YES</tspan>
+    <tspan class="zh">是</tspan>
+  </text>
+  <path d="M 360 116 L 360 145 L 560 145 L 560 170" class="branch"/>
+  <text x="465" y="138" class="branch-label">
+    <tspan class="en">NO</tspan>
+    <tspan class="zh">否</tspan>
+  </text>
+  <rect x="60" y="170" width="180" height="62" class="leaf"/>
+  <text x="150" y="194" class="leaf-label" text-anchor="middle">
+    <tspan class="en">Prompting</tspan>
+    <tspan class="zh">使用 Prompting</tspan>
+  </text>
+  <text x="150" y="210" class="leaf-sub" text-anchor="middle">
+    <tspan class="en">cheapest, fastest</tspan>
+    <tspan class="zh">最便宜、最快</tspan>
+  </text>
+  <text x="150" y="224" class="leaf-sub" text-anchor="middle">
+    <tspan class="en">hours to iterate</tspan>
+    <tspan class="zh">数小时迭代</tspan>
+  </text>
+  <rect x="460" y="170" width="200" height="60" class="question"/>
+  <text x="472" y="190" class="q-num">Q2</text>
+  <text x="560" y="206" class="q-text" text-anchor="middle">
+    <tspan class="en">Is the gap missing</tspan>
+    <tspan class="zh">差距是缺</tspan>
+  </text>
+  <text x="560" y="221" class="q-text" text-anchor="middle">
+    <tspan class="en">knowledge or data?</tspan>
+    <tspan class="zh">知识或数据吗?</tspan>
+  </text>
+  <path d="M 560 230 L 560 260 L 320 260 L 320 285" class="branch-yes"/>
+  <text x="440" y="252" class="branch-label-yes">
+    <tspan class="en">YES</tspan>
+    <tspan class="zh">是</tspan>
+  </text>
+  <path d="M 560 230 L 560 260 L 580 260 L 580 285" class="branch"/>
+  <text x="610" y="252" class="branch-label">
+    <tspan class="en">NO · style</tspan>
+    <tspan class="zh">否 · 风格</tspan>
+  </text>
+  <rect x="230" y="285" width="180" height="62" class="leaf"/>
+  <text x="320" y="309" class="leaf-label" text-anchor="middle">
+    <tspan class="en">Add RAG</tspan>
+    <tspan class="zh">加上 RAG</tspan>
+  </text>
+  <text x="320" y="325" class="leaf-sub" text-anchor="middle">
+    <tspan class="en">private, fresh, citations</tspan>
+    <tspan class="zh">私有、新鲜、可引用</tspan>
+  </text>
+  <text x="320" y="339" class="leaf-sub" text-anchor="middle">
+    <tspan class="en">days to weeks</tspan>
+    <tspan class="zh">数天至数周</tspan>
+  </text>
+  <rect x="490" y="285" width="180" height="62" class="leaf"/>
+  <text x="580" y="309" class="leaf-label" text-anchor="middle">
+    <tspan class="en">Fine tune</tspan>
+    <tspan class="zh">使用 Fine tune</tspan>
+  </text>
+  <text x="580" y="325" class="leaf-sub" text-anchor="middle">
+    <tspan class="en">narrow task, style lock</tspan>
+    <tspan class="zh">窄任务、风格锁定</tspan>
+  </text>
+  <text x="580" y="339" class="leaf-sub" text-anchor="middle">
+    <tspan class="en">weeks, USD 10K+</tspan>
+    <tspan class="zh">数周,USD 10K+</tspan>
+  </text>
+  <text x="40" y="380" class="footnote">
+    <tspan class="en">Most common mistake: jumping to fine tuning when prompting + RAG would have worked.</tspan>
+    <tspan class="zh">最常见错误: prompt + RAG 本来够用却跳到 fine tuning。</tspan>
+  </text>
+  <text x="40" y="394" class="footnote">
+    <tspan class="en">Three months and USD 80K wasted.</tspan>
+    <tspan class="zh">三个月和 USD 80K 白费。</tspan>
+  </text>
+</svg>

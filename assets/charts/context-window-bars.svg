@@ -1,0 +1,117 @@
+<svg viewBox="0 0 720 380" xmlns="http://www.w3.org/2000/svg" class="kb-chart" role="img" aria-label="Context window size comparison with quality degradation thresholds per model">
+  <style>
+    .kb-chart text { font-family: var(--sans, system-ui), sans-serif; fill: var(--ink, #1a1a1a); }
+    .kb-chart .axis-line { stroke: var(--ink, #1a1a1a); stroke-width: 1; }
+    .kb-chart .tick { stroke: var(--ink, #1a1a1a); stroke-width: 1; }
+    .kb-chart .grid { stroke: var(--rule, #d8d2c4); stroke-width: 1; stroke-dasharray: 2,3; }
+    .kb-chart .bar { fill: none; stroke: var(--ink, #1a1a1a); stroke-width: 1; }
+    .kb-chart .bar-range { fill: none; stroke: var(--ink, #1a1a1a); stroke-width: 1; stroke-dasharray: 3,2; opacity: 0.6; }
+    .kb-chart .bar-fill { fill: var(--ink, #1a1a1a); opacity: 0.07; }
+    .kb-chart .thresh-60 { stroke: var(--accent, #a83232); stroke-width: 1; opacity: 0.55; stroke-dasharray: 2,2; }
+    .kb-chart .thresh-80 { stroke: var(--accent, #a83232); stroke-width: 1.5; }
+    .kb-chart .model-label { font-size: 13px; font-weight: 500; fill: var(--ink, #1a1a1a); }
+    .kb-chart .model-sub { font-size: 10px; fill: var(--ink-muted, #8a8580); font-style: italic; }
+    .kb-chart .value-label { font-size: 11px; font-weight: 600; fill: var(--accent, #a83232); }
+    .kb-chart .pages-label { font-size: 10px; fill: var(--ink-muted, #8a8580); font-style: italic; }
+    .kb-chart .axis-label { font-size: 10px; fill: var(--ink-muted, #8a8580); }
+    .kb-chart .title-tag { font-size: 10px; letter-spacing: 0.18em; fill: var(--ink-muted, #8a8580); font-weight: 600; }
+    .kb-chart .legend-label { font-size: 10px; fill: var(--ink-muted, #8a8580); }
+    .kb-chart .footnote { font-size: 10px; fill: var(--ink-muted, #8a8580); font-style: italic; }
+    .kb-chart .zh { display: none; }
+    [data-lang="zh"] .kb-chart .en { display: none; }
+    [data-lang="zh"] .kb-chart .zh { display: inline; }
+    [data-lang="zh"] .kb-chart .model-sub,
+    [data-lang="zh"] .kb-chart .pages-label,
+    [data-lang="zh"] .kb-chart .footnote { font-style: normal; }
+  </style>
+  <text x="40" y="28" class="title-tag">
+    <tspan class="en">CONTEXT WINDOW · LOG SCALE · TOKENS</tspan>
+    <tspan class="zh">上下文窗口 · 对数刻度 · TOKEN</tspan>
+  </text>
+  <line x1="40" y1="52" x2="60" y2="52" class="thresh-60"/>
+  <text x="68" y="56" class="legend-label">
+    <tspan class="en">60% of window · caution</tspan>
+    <tspan class="zh">窗口 60% · 需小心</tspan>
+  </text>
+  <line x1="225" y1="52" x2="245" y2="52" class="thresh-80"/>
+  <text x="253" y="56" class="legend-label">
+    <tspan class="en">80% of window · degrades beyond (lost in the middle)</tspan>
+    <tspan class="zh">窗口 80% · 之后质量下降 (中段遗忘)</tspan>
+  </text>
+  <line x1="190" y1="90" x2="190" y2="298" class="grid"/>
+  <line x1="305" y1="90" x2="305" y2="298" class="grid"/>
+  <line x1="420" y1="90" x2="420" y2="298" class="grid"/>
+  <line x1="535" y1="90" x2="535" y2="298" class="grid"/>
+  <line x1="650" y1="90" x2="650" y2="298" class="grid"/>
+  <line x1="190" y1="310" x2="700" y2="310" class="axis-line"/>
+  <line x1="190" y1="310" x2="190" y2="314" class="tick"/>
+  <line x1="305" y1="310" x2="305" y2="314" class="tick"/>
+  <line x1="420" y1="310" x2="420" y2="314" class="tick"/>
+  <line x1="535" y1="310" x2="535" y2="314" class="tick"/>
+  <line x1="650" y1="310" x2="650" y2="314" class="tick"/>
+  <text x="190" y="326" class="axis-label" text-anchor="middle">1K</text>
+  <text x="305" y="326" class="axis-label" text-anchor="middle">10K</text>
+  <text x="420" y="326" class="axis-label" text-anchor="middle">100K</text>
+  <text x="535" y="326" class="axis-label" text-anchor="middle">1M</text>
+  <text x="650" y="326" class="axis-label" text-anchor="middle">10M</text>
+  <rect x="190" y="98" width="345" height="30" class="bar-fill"/>
+  <rect x="190" y="98" width="345" height="30" class="bar"/>
+  <line x1="510" y1="94" x2="510" y2="132" class="thresh-60"/>
+  <line x1="524" y1="94" x2="524" y2="132" class="thresh-80"/>
+  <text x="180" y="112" class="model-label" text-anchor="end">Gemini 2.5 Pro</text>
+  <text x="180" y="124" class="model-sub" text-anchor="end">
+    <tspan class="en">flagship long context</tspan>
+    <tspan class="zh">旗舰长上下文</tspan>
+  </text>
+  <text x="545" y="112" class="value-label">1M</text>
+  <text x="545" y="124" class="pages-label">
+    <tspan class="en">~2,500 pages</tspan>
+    <tspan class="zh">~2,500 页</tspan>
+  </text>
+  <rect x="190" y="142" width="265" height="30" class="bar-fill"/>
+  <rect x="190" y="142" width="265" height="30" class="bar"/>
+  <line x1="429" y1="138" x2="429" y2="176" class="thresh-60"/>
+  <line x1="444" y1="138" x2="444" y2="176" class="thresh-80"/>
+  <text x="180" y="156" class="model-label" text-anchor="end">Claude Opus 4.7</text>
+  <text x="180" y="168" class="model-sub" text-anchor="end">
+    <tspan class="en">200K standard</tspan>
+    <tspan class="zh">标准 200K</tspan>
+  </text>
+  <text x="465" y="156" class="value-label">200K</text>
+  <text x="465" y="168" class="pages-label">
+    <tspan class="en">~500 pages</tspan>
+    <tspan class="zh">~500 页</tspan>
+  </text>
+  <rect x="190" y="186" width="242" height="30" class="bar-fill"/>
+  <rect x="190" y="186" width="242" height="30" class="bar"/>
+  <line x1="407" y1="182" x2="407" y2="220" class="thresh-60"/>
+  <line x1="421" y1="182" x2="421" y2="220" class="thresh-80"/>
+  <text x="180" y="200" class="model-label" text-anchor="end">GPT 4 class</text>
+  <text x="180" y="212" class="model-sub" text-anchor="end">
+    <tspan class="en">128K window</tspan>
+    <tspan class="zh">128K 窗口</tspan>
+  </text>
+  <text x="442" y="200" class="value-label">128K</text>
+  <text x="442" y="212" class="pages-label">
+    <tspan class="en">~300 pages</tspan>
+    <tspan class="zh">~300 页</tspan>
+  </text>
+  <rect x="190" y="230" width="173" height="30" class="bar-range"/>
+  <text x="180" y="244" class="model-label" text-anchor="end">
+    <tspan class="en">Small open models</tspan>
+    <tspan class="zh">小型开源模型</tspan>
+  </text>
+  <text x="180" y="256" class="model-sub" text-anchor="end">
+    <tspan class="en">on device or self hosted</tspan>
+    <tspan class="zh">端侧或自托管</tspan>
+  </text>
+  <text x="373" y="244" class="value-label">8K to 32K</text>
+  <text x="373" y="256" class="pages-label">
+    <tspan class="en">20 to 80 pages</tspan>
+    <tspan class="zh">20 到 80 页</tspan>
+  </text>
+  <text x="40" y="362" class="footnote">
+    <tspan class="en">Each model degrades inside its own window. Budget for the reliable portion, not the advertised limit.</tspan>
+    <tspan class="zh">每个模型都在自身窗口内退化。按可靠区预算,不是按宣传的上限。</tspan>
+  </text>
+</svg>

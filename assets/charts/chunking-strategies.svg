@@ -1,0 +1,125 @@
+<svg viewBox="0 0 720 380" xmlns="http://www.w3.org/2000/svg" class="kb-chart" role="img" aria-label="Three chunking strategies applied to the same text passage">
+  <style>
+    .kb-chart text { font-family: var(--sans, system-ui), sans-serif; fill: var(--ink, #1a1a1a); }
+    .kb-chart .text-line { font-size: 11px; fill: var(--ink, #1a1a1a); }
+    .kb-chart .chunk-1 { fill: var(--ink, #1a1a1a); opacity: 0.07; }
+    .kb-chart .chunk-2 { fill: var(--accent, #a83232); opacity: 0.10; }
+    .kb-chart .chunk-3 { fill: var(--ink, #1a1a1a); opacity: 0.12; }
+    .kb-chart .chunk-cut { stroke: var(--accent, #a83232); stroke-width: 1.5; stroke-dasharray: 3,2; }
+    .kb-chart .chunk-cut-clean { stroke: var(--ink, #1a1a1a); stroke-width: 1; }
+    .kb-chart .strategy-label { font-size: 12px; font-weight: 600; fill: var(--ink, #1a1a1a); }
+    .kb-chart .strategy-sub { font-size: 10px; fill: var(--ink-muted, #8a8580); font-style: italic; }
+    .kb-chart .verdict-bad { font-size: 10px; fill: var(--accent, #a83232); font-weight: 600; letter-spacing: 0.05em; }
+    .kb-chart .verdict-ok { font-size: 10px; fill: var(--ink-muted, #8a8580); font-weight: 600; letter-spacing: 0.05em; }
+    .kb-chart .title-tag { font-size: 10px; letter-spacing: 0.18em; fill: var(--ink-muted, #8a8580); font-weight: 600; }
+    .kb-chart .footnote { font-size: 10px; fill: var(--ink-muted, #8a8580); font-style: italic; }
+    .kb-chart .zh { display: none; }
+    [data-lang="zh"] .kb-chart .en { display: none; }
+    [data-lang="zh"] .kb-chart .zh { display: inline; }
+    [data-lang="zh"] .kb-chart .strategy-sub,
+    [data-lang="zh"] .kb-chart .footnote { font-style: normal; }
+  </style>
+  <text x="40" y="28" class="title-tag">
+    <tspan class="en">CHUNKING · SAME PASSAGE · THREE WAYS</tspan>
+    <tspan class="zh">分块 · 同一段落 · 三种方法</tspan>
+  </text>
+  <text x="200" y="76" class="strategy-label" text-anchor="end">
+    <tspan class="en">Fixed size</tspan>
+    <tspan class="zh">固定大小</tspan>
+  </text>
+  <text x="200" y="90" class="strategy-sub" text-anchor="end">
+    <tspan class="en">every N tokens</tspan>
+    <tspan class="zh">每 N 个 token</tspan>
+  </text>
+  <rect x="210" y="62" width="180" height="36" class="chunk-1"/>
+  <rect x="390" y="62" width="180" height="36" class="chunk-2"/>
+  <line x1="390" y1="62" x2="390" y2="98" class="chunk-cut"/>
+  <text x="218" y="78" class="text-line">
+    <tspan class="en">Requires: (1) proof,</tspan>
+    <tspan class="zh">要求: (1) 证据,</tspan>
+  </text>
+  <text x="218" y="92" class="text-line">
+    <tspan class="en">(2) sign off, (3) H</tspan>
+    <tspan class="zh">(2) 签字, (3) H</tspan>
+  </text>
+  <text x="398" y="78" class="text-line">
+    <tspan class="en">R review, (4) 60 day</tspan>
+    <tspan class="zh">R 审核, (4) 60 天等</tspan>
+  </text>
+  <text x="398" y="92" class="text-line">
+    <tspan class="en">waiting period.</tspan>
+    <tspan class="zh">待期。</tspan>
+  </text>
+  <text x="580" y="84" class="verdict-bad">
+    <tspan class="en">CUTS MID LIST</tspan>
+    <tspan class="zh">切到列表中间</tspan>
+  </text>
+  <text x="580" y="98" class="strategy-sub">
+    <tspan class="en">misses (3) and (4)</tspan>
+    <tspan class="zh">遗漏 (3) 和 (4)</tspan>
+  </text>
+  <text x="200" y="166" class="strategy-label" text-anchor="end">
+    <tspan class="en">Sentence</tspan>
+    <tspan class="zh">句子边界</tspan>
+  </text>
+  <text x="200" y="180" class="strategy-sub" text-anchor="end">
+    <tspan class="en">split at full stops</tspan>
+    <tspan class="zh">在句号处切分</tspan>
+  </text>
+  <rect x="210" y="152" width="360" height="36" class="chunk-1"/>
+  <line x1="570" y1="152" x2="570" y2="188" class="chunk-cut-clean"/>
+  <text x="218" y="168" class="text-line">
+    <tspan class="en">Requires: (1) proof, (2) sign off,</tspan>
+    <tspan class="zh">要求: (1) 证据, (2) 签字,</tspan>
+  </text>
+  <text x="218" y="182" class="text-line">
+    <tspan class="en">(3) HR review, (4) 60 day wait period.</tspan>
+    <tspan class="zh">(3) HR 审核, (4) 60 天等待期。</tspan>
+  </text>
+  <text x="580" y="174" class="verdict-ok">
+    <tspan class="en">CLEAN BREAK</tspan>
+    <tspan class="zh">干净切分</tspan>
+  </text>
+  <text x="580" y="188" class="strategy-sub">
+    <tspan class="en">may split ideas</tspan>
+    <tspan class="zh">可能切散概念</tspan>
+  </text>
+  <text x="200" y="256" class="strategy-label" text-anchor="end">
+    <tspan class="en">Structural</tspan>
+    <tspan class="zh">结构</tspan>
+  </text>
+  <text x="200" y="270" class="strategy-sub" text-anchor="end">
+    <tspan class="en">split at headings</tspan>
+    <tspan class="zh">按标题切分</tspan>
+  </text>
+  <rect x="210" y="242" width="360" height="36" class="chunk-3"/>
+  <line x1="570" y1="242" x2="570" y2="278" class="chunk-cut-clean"/>
+  <text x="218" y="258" class="text-line">
+    <tspan class="en">[Section: Hardship withdrawals]</tspan>
+    <tspan class="zh">[小节: 困难提取]</tspan>
+  </text>
+  <text x="218" y="272" class="text-line">
+    <tspan class="en">Requires: (1) proof (2) sign (3) HR (4) 60 d.</tspan>
+    <tspan class="zh">要求: (1) 证据 (2) 签字 (3) HR (4) 60 天。</tspan>
+  </text>
+  <text x="580" y="262" class="verdict-ok">
+    <tspan class="en">FULL ANSWER</tspan>
+    <tspan class="zh">答案完整</tspan>
+  </text>
+  <text x="580" y="276" class="strategy-sub">
+    <tspan class="en">recommended</tspan>
+    <tspan class="zh">推荐默认</tspan>
+  </text>
+  <text x="40" y="320" class="footnote">
+    <tspan class="en">User asks: "what are the hardship withdrawal requirements?"</tspan>
+    <tspan class="zh">用户问: "困难提取的要求是什么?"</tspan>
+  </text>
+  <text x="40" y="336" class="footnote">
+    <tspan class="en">Fixed size returns only (1) and (2). Model confidently generates a wrong half answer.</tspan>
+    <tspan class="zh">固定大小只返回 (1) 和 (2)。模型自信生成错误的一半答案。</tspan>
+  </text>
+  <text x="40" y="352" class="footnote">
+    <tspan class="en">Chunking is the single most under estimated decision in RAG.</tspan>
+    <tspan class="zh">Chunking 是 RAG 中最被低估的决定。</tspan>
+  </text>
+</svg>

@@ -1,0 +1,102 @@
+<svg viewBox="0 0 720 320" xmlns="http://www.w3.org/2000/svg" class="kb-chart" role="img" aria-label="Model tier comparison across cost, latency, and capability">
+  <style>
+    .kb-chart text { font-family: var(--sans, system-ui), sans-serif; fill: var(--ink, #1a1a1a); }
+    .kb-chart .bar { fill: none; stroke: var(--ink, #1a1a1a); stroke-width: 1; }
+    .kb-chart .bar-fill { fill: var(--accent, #a83232); opacity: 0.22; }
+    .kb-chart .col-label { font-size: 11px; letter-spacing: 0.16em; fill: var(--ink-muted, #8a8580); font-weight: 600; }
+    .kb-chart .row-label { font-size: 13px; font-weight: 600; fill: var(--ink, #1a1a1a); }
+    .kb-chart .row-sub { font-size: 10px; fill: var(--ink-muted, #8a8580); font-style: italic; }
+    .kb-chart .value { font-size: 10px; font-weight: 600; fill: var(--accent, #a83232); }
+    .kb-chart .title-tag { font-size: 10px; letter-spacing: 0.18em; fill: var(--ink-muted, #8a8580); font-weight: 600; }
+    .kb-chart .footnote { font-size: 10px; fill: var(--ink-muted, #8a8580); font-style: italic; }
+    .kb-chart .zh { display: none; }
+    [data-lang="zh"] .kb-chart .en { display: none; }
+    [data-lang="zh"] .kb-chart .zh { display: inline; }
+    [data-lang="zh"] .kb-chart .row-sub,
+    [data-lang="zh"] .kb-chart .footnote { font-style: normal; }
+  </style>
+  <text x="40" y="28" class="title-tag">
+    <tspan class="en">MODEL TIERS · ANTHROPIC FAMILY · RELATIVE</tspan>
+    <tspan class="zh">模型层级 · ANTHROPIC 家族 · 相对量</tspan>
+  </text>
+  <text x="225" y="62" class="col-label" text-anchor="middle">
+    <tspan class="en">COST PER 1M TOKENS</tspan>
+    <tspan class="zh">每 1M TOKEN 成本</tspan>
+  </text>
+  <text x="425" y="62" class="col-label" text-anchor="middle">
+    <tspan class="en">LATENCY</tspan>
+    <tspan class="zh">延迟</tspan>
+  </text>
+  <text x="610" y="62" class="col-label" text-anchor="middle">
+    <tspan class="en">CAPABILITY</tspan>
+    <tspan class="zh">能力</tspan>
+  </text>
+  <text x="160" y="105" class="row-label" text-anchor="end">Haiku</text>
+  <text x="160" y="119" class="row-sub" text-anchor="end">
+    <tspan class="en">small · cheap</tspan>
+    <tspan class="zh">小型 · 便宜</tspan>
+  </text>
+  <rect x="170" y="92" width="8" height="28" class="bar-fill"/>
+  <rect x="170" y="92" width="8" height="28" class="bar"/>
+  <text x="186" y="110" class="value">$1</text>
+  <rect x="360" y="92" width="24" height="28" class="bar-fill"/>
+  <rect x="360" y="92" width="24" height="28" class="bar"/>
+  <text x="392" y="110" class="value">
+    <tspan class="en">fast</tspan>
+    <tspan class="zh">快</tspan>
+  </text>
+  <rect x="540" y="92" width="50" height="28" class="bar-fill"/>
+  <rect x="540" y="92" width="50" height="28" class="bar"/>
+  <text x="598" y="110" class="value">
+    <tspan class="en">good</tspan>
+    <tspan class="zh">够用</tspan>
+  </text>
+  <text x="160" y="165" class="row-label" text-anchor="end">Sonnet</text>
+  <text x="160" y="179" class="row-sub" text-anchor="end">
+    <tspan class="en">mid · balanced</tspan>
+    <tspan class="zh">中等 · 平衡</tspan>
+  </text>
+  <rect x="170" y="152" width="24" height="28" class="bar-fill"/>
+  <rect x="170" y="152" width="24" height="28" class="bar"/>
+  <text x="202" y="170" class="value">$3</text>
+  <rect x="360" y="152" width="60" height="28" class="bar-fill"/>
+  <rect x="360" y="152" width="60" height="28" class="bar"/>
+  <text x="428" y="170" class="value">
+    <tspan class="en">mid</tspan>
+    <tspan class="zh">中</tspan>
+  </text>
+  <rect x="540" y="152" width="90" height="28" class="bar-fill"/>
+  <rect x="540" y="152" width="90" height="28" class="bar"/>
+  <text x="638" y="170" class="value">
+    <tspan class="en">strong</tspan>
+    <tspan class="zh">强</tspan>
+  </text>
+  <text x="160" y="225" class="row-label" text-anchor="end">Opus</text>
+  <text x="160" y="239" class="row-sub" text-anchor="end">
+    <tspan class="en">flagship</tspan>
+    <tspan class="zh">旗舰</tspan>
+  </text>
+  <rect x="170" y="212" width="120" height="28" class="bar-fill"/>
+  <rect x="170" y="212" width="120" height="28" class="bar"/>
+  <text x="298" y="230" class="value">$15</text>
+  <rect x="360" y="212" width="120" height="28" class="bar-fill"/>
+  <rect x="360" y="212" width="120" height="28" class="bar"/>
+  <text x="488" y="230" class="value">
+    <tspan class="en">slow</tspan>
+    <tspan class="zh">慢</tspan>
+  </text>
+  <rect x="540" y="212" width="120" height="28" class="bar-fill"/>
+  <rect x="540" y="212" width="120" height="28" class="bar"/>
+  <text x="668" y="230" class="value">
+    <tspan class="en">top</tspan>
+    <tspan class="zh">顶级</tspan>
+  </text>
+  <text x="40" y="278" class="footnote">
+    <tspan class="en">Same training lineage, three trade off points. Route simple tasks to Haiku, complex reasoning to Opus.</tspan>
+    <tspan class="zh">同一训练血统,三个权衡点。简单任务路由到 Haiku,复杂推理路由到 Opus。</tspan>
+  </text>
+  <text x="40" y="295" class="footnote">
+    <tspan class="en">Defaulting every call to flagship is the most common cost mistake in production AI.</tspan>
+    <tspan class="zh">每个调用默认用旗舰是生产 AI 中最常见的成本错误。</tspan>
+  </text>
+</svg>

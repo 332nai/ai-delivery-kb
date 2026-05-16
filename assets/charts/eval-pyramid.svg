@@ -1,0 +1,134 @@
+<svg viewBox="0 0 720 360" xmlns="http://www.w3.org/2000/svg" class="kb-chart" role="img" aria-label="Eval method layers from deterministic to human review">
+  <style>
+    .kb-chart text { font-family: var(--sans, system-ui), sans-serif; fill: var(--ink, #1a1a1a); }
+    .kb-chart .layer { stroke: var(--ink, #1a1a1a); stroke-width: 1; }
+    .kb-chart .layer-1 { fill: var(--ink, #1a1a1a); opacity: 0.04; }
+    .kb-chart .layer-2 { fill: var(--ink, #1a1a1a); opacity: 0.10; }
+    .kb-chart .layer-3 { fill: var(--accent, #a83232); opacity: 0.18; }
+    .kb-chart .layer-4 { fill: var(--accent, #a83232); opacity: 0.32; }
+    .kb-chart .layer-label { font-size: 13px; font-weight: 600; fill: var(--ink, #1a1a1a); }
+    .kb-chart .layer-sub { font-size: 10px; fill: var(--ink-muted, #8a8580); font-style: italic; }
+    .kb-chart .col-head { font-size: 10px; letter-spacing: 0.16em; fill: var(--ink-muted, #8a8580); font-weight: 600; }
+    .kb-chart .col-val { font-size: 11px; fill: var(--ink, #1a1a1a); font-weight: 500; }
+    .kb-chart .col-val-accent { font-size: 11px; fill: var(--accent, #a83232); font-weight: 600; }
+    .kb-chart .title-tag { font-size: 10px; letter-spacing: 0.18em; fill: var(--ink-muted, #8a8580); font-weight: 600; }
+    .kb-chart .axis-label { font-size: 10px; fill: var(--ink-muted, #8a8580); font-style: italic; }
+    .kb-chart .footnote { font-size: 10px; fill: var(--ink-muted, #8a8580); font-style: italic; }
+    .kb-chart .zh { display: none; }
+    [data-lang="zh"] .kb-chart .en { display: none; }
+    [data-lang="zh"] .kb-chart .zh { display: inline; }
+    [data-lang="zh"] .kb-chart .layer-sub,
+    [data-lang="zh"] .kb-chart .axis-label,
+    [data-lang="zh"] .kb-chart .footnote { font-style: normal; }
+  </style>
+  <text x="40" y="28" class="title-tag">
+    <tspan class="en">EVAL LAYERS · CHEAP AT BOTTOM · COSTLY AT TOP</tspan>
+    <tspan class="zh">评估层级 · 底部便宜 · 顶部昂贵</tspan>
+  </text>
+  <text x="360" y="62" class="col-head" text-anchor="middle">
+    <tspan class="en">VOLUME</tspan>
+    <tspan class="zh">规模</tspan>
+  </text>
+  <text x="490" y="62" class="col-head" text-anchor="middle">
+    <tspan class="en">COST PER EVAL</tspan>
+    <tspan class="zh">单次成本</tspan>
+  </text>
+  <text x="620" y="62" class="col-head" text-anchor="middle">
+    <tspan class="en">BEST FOR</tspan>
+    <tspan class="zh">最适用于</tspan>
+  </text>
+  <polygon points="300,80 420,80 405,124 315,124" class="layer layer-4"/>
+  <text x="290" y="100" class="layer-label" text-anchor="end">
+    <tspan class="en">Human review</tspan>
+    <tspan class="zh">人工评估</tspan>
+  </text>
+  <text x="290" y="116" class="layer-sub" text-anchor="end">
+    <tspan class="en">people grade output</tspan>
+    <tspan class="zh">人评分</tspan>
+  </text>
+  <text x="360" y="107" class="col-val" text-anchor="middle">
+    <tspan class="en">100s</tspan>
+    <tspan class="zh">几百</tspan>
+  </text>
+  <text x="490" y="107" class="col-val-accent" text-anchor="middle">$5 to $50</text>
+  <text x="620" y="107" class="col-val" text-anchor="middle">
+    <tspan class="en">golden set</tspan>
+    <tspan class="zh">黄金集</tspan>
+  </text>
+  <polygon points="270,128 450,128 435,172 285,172" class="layer layer-3"/>
+  <text x="260" y="148" class="layer-label" text-anchor="end">
+    <tspan class="en">A/B testing</tspan>
+    <tspan class="zh">A/B 测试</tspan>
+  </text>
+  <text x="260" y="164" class="layer-sub" text-anchor="end">
+    <tspan class="en">real users in prod</tspan>
+    <tspan class="zh">生产中真实用户</tspan>
+  </text>
+  <text x="360" y="155" class="col-val" text-anchor="middle">
+    <tspan class="en">1000s</tspan>
+    <tspan class="zh">数千</tspan>
+  </text>
+  <text x="490" y="155" class="col-val-accent" text-anchor="middle">
+    <tspan class="en">slow but cheap</tspan>
+    <tspan class="zh">慢但便宜</tspan>
+  </text>
+  <text x="620" y="155" class="col-val" text-anchor="middle">
+    <tspan class="en">prod decisions</tspan>
+    <tspan class="zh">生产决策</tspan>
+  </text>
+  <polygon points="240,176 480,176 465,220 255,220" class="layer layer-2"/>
+  <text x="230" y="196" class="layer-label" text-anchor="end">
+    <tspan class="en">LLM as judge</tspan>
+    <tspan class="zh">LLM 评判</tspan>
+  </text>
+  <text x="230" y="212" class="layer-sub" text-anchor="end">
+    <tspan class="en">model grades model</tspan>
+    <tspan class="zh">模型评模型</tspan>
+  </text>
+  <text x="360" y="203" class="col-val" text-anchor="middle">
+    <tspan class="en">10,000s</tspan>
+    <tspan class="zh">数万</tspan>
+  </text>
+  <text x="490" y="203" class="col-val-accent" text-anchor="middle">$0.01 to $0.10</text>
+  <text x="620" y="203" class="col-val" text-anchor="middle">
+    <tspan class="en">subjective quality</tspan>
+    <tspan class="zh">主观质量</tspan>
+  </text>
+  <polygon points="200,224 520,224 505,268 215,268" class="layer layer-1"/>
+  <text x="190" y="244" class="layer-label" text-anchor="end">
+    <tspan class="en">Deterministic</tspan>
+    <tspan class="zh">确定性</tspan>
+  </text>
+  <text x="190" y="260" class="layer-sub" text-anchor="end">
+    <tspan class="en">exact match, format, regex</tspan>
+    <tspan class="zh">精确匹配、格式、正则</tspan>
+  </text>
+  <text x="360" y="251" class="col-val" text-anchor="middle">
+    <tspan class="en">unlimited</tspan>
+    <tspan class="zh">无限</tspan>
+  </text>
+  <text x="490" y="251" class="col-val-accent" text-anchor="middle">
+    <tspan class="en">free</tspan>
+    <tspan class="zh">免费</tspan>
+  </text>
+  <text x="620" y="251" class="col-val" text-anchor="middle">
+    <tspan class="en">format, schema</tspan>
+    <tspan class="zh">格式、字段</tspan>
+  </text>
+  <text x="40" y="304" class="axis-label">
+    <tspan class="en">↑ slower, more expensive, more authoritative</tspan>
+    <tspan class="zh">↑ 更慢、更贵、更权威</tspan>
+  </text>
+  <text x="40" y="320" class="axis-label">
+    <tspan class="en">↓ faster, cheaper, more automatable</tspan>
+    <tspan class="zh">↓ 更快、更便宜、更可自动化</tspan>
+  </text>
+  <text x="40" y="346" class="footnote">
+    <tspan class="en">Layered eval: deterministic catches format breaks · LLM judge catches quality drift</tspan>
+    <tspan class="zh">分层评估: 确定性抓格式破损 · LLM 评判抓质量漂移</tspan>
+  </text>
+  <text x="40" y="358" class="footnote">
+    <tspan class="en">Human review calibrates the LLM judge · A/B tells you what users actually do.</tspan>
+    <tspan class="zh">人工评估校准 LLM 评判 · A/B 告诉你用户实际行为。</tspan>
+  </text>
+</svg>
