@@ -2,7 +2,8 @@
 <html lang="en" data-theme="editorial">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#faf8f3">
 <title>AI Delivery Knowledge Base / AI 交付知识库</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,6 +13,22 @@ __CSS__
 </style>
 </head>
 <body>
+
+<header class="mobile-bar" id="mobileBar">
+  <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="4" y1="7" x2="20" y2="7"/>
+      <line x1="4" y1="12" x2="20" y2="12"/>
+      <line x1="4" y1="17" x2="20" y2="17"/>
+    </svg>
+  </button>
+  <div class="mobile-bar-brand" onclick="showWelcome(); closeDrawer();">
+    <span class="mobile-bar-title">AI Delivery</span>
+    <span class="mobile-bar-sub">KB</span>
+  </div>
+</header>
+
+<div class="drawer-overlay" id="drawerOverlay"></div>
 
 <div class="app">
 

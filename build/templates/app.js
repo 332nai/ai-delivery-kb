@@ -1,5 +1,6 @@
 
-let KB = [];
+let KB = [];        // array of topics (legacy name kept)
+let VOLUMES = [];   // array of volume metadata
 
 const STRINGS = {
   en: {
@@ -15,7 +16,10 @@ const STRINGS = {
     next: 'Next',
     home: 'Home',
     langLabel: 'Lang',
-    themeLabel: 'Style'
+    themeLabel: 'Style',
+    menu: 'Menu',
+    onThisPage: 'On this page',
+    close: 'Close'
   },
   zh: {
     brandLine1: 'AI \u4ea4\u4ed8',
@@ -30,18 +34,21 @@ const STRINGS = {
     next: '\u4e0b\u4e00\u6761',
     home: '\u9996\u9875',
     langLabel: '\u8bed\u8a00',
-    themeLabel: '\u98ce\u683c'
+    themeLabel: '\u98ce\u683c',
+    menu: '\u76ee\u5f55',
+    onThisPage: '\u672c\u9875\u5bfc\u822a',
+    close: '\u5173\u95ed'
   }
 };
 
-// Numbers in the brand strip and welcome subtitle are derived from KB, not hardcoded.
 function getNavMeta() {
   const topicCount = KB.length;
   const itemCount = KB.reduce((acc, t) => acc + t.items.length, 0);
+  const volumeCount = VOLUMES.length;
   if (currentLang === 'en') {
-    return `${topicCount} topics &middot; ${itemCount} items`;
+    return `${volumeCount} volumes &middot; ${topicCount} topics &middot; ${itemCount} items`;
   }
-  return `${topicCount} \u4e2a\u4e3b\u9898 &middot; ${itemCount} \u4e2a\u6761\u76ee`;
+  return `${volumeCount} \u5377 &middot; ${topicCount} \u4e2a\u4e3b\u9898 &middot; ${itemCount} \u4e2a\u6761\u76ee`;
 }
 
 function getWelcomeSubtitle() {
@@ -110,7 +117,7 @@ function parseMarkdown(text) {
       flushList();
       const headerCells = line.split('|').slice(1, -1).map(c => c.trim());
       i += 2;
-      let t = '<table><thead><tr>';
+      let t = '<div class="table-scroll"><table><thead><tr>';
       headerCells.forEach(c => t += '<th>' + inline(c) + '</th>');
       t += '</tr></thead><tbody>';
       while (i < lines.length && lines[i].trim().startsWith('|')) {
@@ -120,7 +127,7 @@ function parseMarkdown(text) {
         t += '</tr>';
         i++;
       }
-      t += '</tbody></table>\n';
+      t += '</tbody></table></div>\n';
       html += t;
       continue;
     }
@@ -140,9 +147,6 @@ function parseMarkdown(text) {
     if (line.trim() === '') { flushList(); i++; continue; }
     if (line.startsWith('### ')) { flushList(); html += '<h3>' + inline(line.slice(4)) + '</h3>\n'; i++; continue; }
 
-    // Raw HTML block: a line that starts with a block-level tag at column 0.
-    // We pass it through unchanged until we hit a blank line. This is how
-    // chart transclusions ({{chart: name}} -> inline SVG wrapper) survive.
     if (/^<(div|svg|figure|section|aside|table|nav|details|p|blockquote|pre)\b/.test(line)) {
       flushList();
       let buf = line;
@@ -176,11 +180,11 @@ function getTitle(t) { return t['title_' + currentLang]; }
 function getAltTitle(t) { return t['title_' + (currentLang === 'en' ? 'zh' : 'en')]; }
 function getBody(it) { return it['body_' + currentLang]; }
 function getSubtitle(t) { return t['subtitle_' + currentLang]; }
+function topicsInVolume(volNum) { return KB.filter(t => t.volume === volNum); }
 
 function renderBreadcrumb() {
   const bc = document.getElementById('breadcrumb');
   if (!currentItem) {
-    // Welcome page: hide breadcrumb
     bc.style.display = 'none';
     return;
   }
@@ -188,56 +192,78 @@ function renderBreadcrumb() {
   const topic = KB.find(t => t.num === currentItem.topic);
   const item = topic.items.find(it => it.num === currentItem.item);
   bc.innerHTML = `
-    <a onclick="showWelcome()">
+    <a class="crumb crumb-home" onclick="showWelcome()" title="${getStr('home')}">
       <svg class="home-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
         <path d="M2 7L8 2L14 7V14H10V10H6V14H2V7Z"/>
       </svg>
-      <span>${getStr('home')}</span>
+      <span class="crumb-label">${getStr('home')}</span>
     </a>
     <span class="sep">/</span>
-    <a onclick="showItem(${topic.num}, '${topic.items[0].num}')">${getTitle(topic)}</a>
+    <a class="crumb crumb-topic" onclick="showItem(${topic.num}, '${topic.items[0].num}')">${getTitle(topic)}</a>
     <span class="sep">/</span>
-    <span class="current">${item.num}&nbsp;&middot;&nbsp;${getTitle(item)}</span>
+    <span class="crumb crumb-current">
+      <span class="crumb-num">${item.num}</span>
+      <span class="crumb-title">${getTitle(item)}</span>
+    </span>
   `;
 }
 
 function renderSidebar() {
   const list = document.getElementById('topicList');
   list.innerHTML = '';
-  KB.forEach(topic => {
-    const li = document.createElement('li');
-    li.className = 'topic';
-    li.dataset.topic = topic.num;
-    if (currentItem && currentItem.topic === topic.num) li.classList.add('open');
-
-    const header = document.createElement('div');
-    header.className = 'topic-header';
-    header.innerHTML = `
-      <span class="topic-num">T${String(topic.num).padStart(2, '0')}</span>
-      <span class="topic-name">${getTitle(topic)}</span>
-      <span class="topic-chevron">\u25b8</span>
+  
+  VOLUMES.forEach((vol, vIdx) => {
+    const topics = topicsInVolume(vol.num);
+    if (topics.length === 0) return;
+    
+    const volHeader = document.createElement('li');
+    volHeader.className = 'volume-header';
+    if (vIdx > 0) volHeader.classList.add('volume-header-spaced');
+    volHeader.innerHTML = `
+      <div class="volume-title">${vol['title_' + currentLang]}</div>
+      <div class="volume-subtitle">${vol['subtitle_' + currentLang]}</div>
     `;
-    header.onclick = () => li.classList.toggle('open');
+    list.appendChild(volHeader);
+    
+    topics.forEach(topic => {
+      const li = document.createElement('li');
+      li.className = 'topic';
+      li.dataset.topic = topic.num;
+      if (currentItem && currentItem.topic === topic.num) li.classList.add('open');
 
-    const subtitle = document.createElement('div');
-    subtitle.className = 'topic-subtitle';
-    subtitle.textContent = getSubtitle(topic);
+      const header = document.createElement('div');
+      header.className = 'topic-header';
+      header.innerHTML = `
+        <span class="topic-num">T${String(topic.num).padStart(2, '0')}</span>
+        <span class="topic-name">${getTitle(topic)}</span>
+        <span class="topic-chevron">\u25b8</span>
+      `;
+      header.onclick = () => li.classList.toggle('open');
 
-    const items = document.createElement('ul');
-    items.className = 'item-list';
-    topic.items.forEach(item => {
-      const a = document.createElement('a');
-      a.className = 'item-link';
-      if (currentItem && currentItem.item === item.num) a.classList.add('active');
-      a.innerHTML = `<span class="item-num">${item.num}</span><span>${getTitle(item)}</span>`;
-      a.onclick = (e) => { e.preventDefault(); showItem(topic.num, item.num); };
-      items.appendChild(a);
+      const subtitle = document.createElement('div');
+      subtitle.className = 'topic-subtitle';
+      subtitle.textContent = getSubtitle(topic);
+
+      const items = document.createElement('ul');
+      items.className = 'item-list';
+      topic.items.forEach(item => {
+        const a = document.createElement('a');
+        a.className = 'item-link';
+        if (currentItem && currentItem.item === item.num) a.classList.add('active');
+        a.innerHTML = `<span class="item-num">${item.num}</span><span class="item-link-title">${getTitle(item)}</span>`;
+        a.onclick = (e) => { 
+          e.preventDefault(); 
+          showItem(topic.num, item.num); 
+          closeDrawer();
+        };
+        items.appendChild(a);
+      });
+
+      li.appendChild(header);
+      li.appendChild(subtitle);
+      li.appendChild(items);
+      list.appendChild(li);
     });
-
-    li.appendChild(header);
-    li.appendChild(subtitle);
-    li.appendChild(items);
-    list.appendChild(li);
   });
 
   document.querySelectorAll('.brand-title')[0].textContent = getStr('brandLine1');
@@ -247,25 +273,44 @@ function renderSidebar() {
   if (bm) bm.textContent = getStr('eyebrow');
   document.getElementById('langLabel').textContent = getStr('langLabel');
   document.getElementById('themeLabel').textContent = getStr('themeLabel');
-  // Update theme button labels
   Object.keys(THEMES).forEach(k => {
     const btn = document.querySelector(`.theme-toggle button[data-theme="${k}"]`);
     if (btn) btn.textContent = THEMES[k][currentLang];
   });
+  
+  const mb = document.getElementById('mobileMenuBtn');
+  if (mb) mb.setAttribute('aria-label', getStr('menu'));
 }
 
 function renderWelcome() {
   const w = document.getElementById('welcome');
-  let grid = '';
-  KB.forEach(topic => {
-    const count = topic.items.length;
-    grid += `
-      <div class="topic-card" onclick="showItem(${topic.num}, '${topic.items[0].num}')">
-        <div class="topic-card-num">Topic ${String(topic.num).padStart(2, '0')}</div>
-        <div class="topic-card-title">${getTitle(topic)}</div>
-        <div class="topic-card-sub">${getSubtitle(topic)}</div>
-        <div class="topic-card-count">${count} ${getStr('items')}</div>
-      </div>
+  
+  let volumeSections = '';
+  VOLUMES.forEach(vol => {
+    const topics = topicsInVolume(vol.num);
+    if (topics.length === 0) return;
+    
+    let grid = '';
+    topics.forEach(topic => {
+      const count = topic.items.length;
+      grid += `
+        <div class="topic-card" onclick="showItem(${topic.num}, '${topic.items[0].num}')">
+          <div class="topic-card-num">Topic ${String(topic.num).padStart(2, '0')}</div>
+          <div class="topic-card-title">${getTitle(topic)}</div>
+          <div class="topic-card-sub">${getSubtitle(topic)}</div>
+          <div class="topic-card-count">${count} ${getStr('items')}</div>
+        </div>
+      `;
+    });
+    
+    volumeSections += `
+      <section class="welcome-volume">
+        <div class="welcome-volume-header">
+          <div class="welcome-volume-title">${vol['title_' + currentLang]}</div>
+          <div class="welcome-volume-subtitle">${vol['subtitle_' + currentLang]}</div>
+        </div>
+        <div class="topic-grid">${grid}</div>
+      </section>
     `;
   });
 
@@ -275,10 +320,43 @@ function renderWelcome() {
     <p class="welcome-subtitle">${getWelcomeSubtitle()}</p>
     <div class="welcome-rule"></div>
     <p class="welcome-desc">${getStr('welcomeDesc')}</p>
-    <div class="nav-meta" style="margin-bottom: 14px;">${getStr('browseTopics')}</div>
-    <div class="topic-grid">${grid}</div>
+    ${volumeSections}
   `;
   w.setAttribute('data-lang', currentLang);
+}
+
+// Extract section headers from the rendered article body to build a mini TOC.
+// We only count a paragraph as a section header if its entire text content is
+// essentially just the strong element (allowing for trailing punctuation only).
+// We ALSO mark those paragraphs with a class so CSS can style only the real
+// section headers, leaving inline emphasis as plain bold.
+function buildTOC(articleBodyEl) {
+  const toc = [];
+  // Process all article-body sections (main and Qantas)
+  const allBodies = articleBodyEl.parentElement.querySelectorAll('.article-body');
+  const punctRegex = /[\s\u0020-\u002f\u003a-\u0040\u005b-\u0060\u007b-\u007e\u3000-\u303f\uff00-\uffef.,;:!?'"()\[\]{}\-_=+/\\|<>]/g;
+  let idCounter = 0;
+  allBodies.forEach(bodyEl => {
+    const strongs = bodyEl.querySelectorAll('p > strong:only-child');
+    strongs.forEach(s => {
+      const text = s.textContent.trim();
+      const parentText = s.parentElement.textContent;
+      const outside = parentText.replace(s.textContent, '');
+      const outsideClean = outside.replace(punctRegex, '');
+      if (outsideClean.length > 0) return;  // not a section header, leave alone
+      
+      // It IS a section header: tag the parent paragraph
+      s.parentElement.classList.add('is-section-header');
+      
+      // Add to TOC only for the main body (not Qantas), and skip Takeaway
+      if (bodyEl.id !== 'articleMainBody') return;
+      if (/^(Takeaway|\u8981\u70b9\u603b\u7ed3)[:\uff1a]/.test(text)) return;
+      const id = 'sec-' + (idCounter++) + '-' + text.replace(/[^a-zA-Z0-9\u4e00-\u9fff]+/g, '-').toLowerCase().substring(0, 40);
+      s.parentElement.id = id;
+      toc.push({id, text});
+    });
+  });
+  return toc;
 }
 
 function renderArticle(topicNum, itemNum) {
@@ -320,7 +398,7 @@ function renderArticle(topicNum, itemNum) {
     </div>
     <h1 class="article-title">${getTitle(item)}</h1>
     <p class="article-alt-title">${getAltTitle(item)}</p>
-    <div class="article-body">${parseMarkdown(mainPart)}</div>
+    <div class="article-body" id="articleMainBody">${parseMarkdown(mainPart)}</div>
     ${qantasPart ? `
       <div class="qantas-section">
         <div class="qantas-mark">${getStr('qantasMark')}</div>
@@ -340,6 +418,22 @@ function renderArticle(topicNum, itemNum) {
         </a>` : '<span></span>'}
     </div>
   `;
+  
+  const mainBody = document.getElementById('articleMainBody');
+  if (mainBody) {
+    const toc = buildTOC(mainBody);
+    if (toc.length >= 3) {
+      const tocHtml = `
+        <nav class="article-toc" aria-label="On this page">
+          <div class="article-toc-label">${getStr('onThisPage')}</div>
+          <ul>
+            ${toc.map(s => `<li><a href="#${s.id}" onclick="event.preventDefault(); document.getElementById('${s.id}').scrollIntoView({behavior:'smooth', block:'start'});">${s.text}</a></li>`).join('')}
+          </ul>
+        </nav>
+      `;
+      mainBody.insertAdjacentHTML('beforebegin', tocHtml);
+    }
+  }
 }
 
 function showItem(topicNum, itemNum) {
@@ -389,6 +483,11 @@ function applyLang(lang) {
   try { localStorage.setItem('kb-lang', lang); } catch(e) {}
 }
 
+// === Mobile drawer ===
+function openDrawer() { document.body.classList.add('drawer-open'); }
+function closeDrawer() { document.body.classList.remove('drawer-open'); }
+function toggleDrawer() { document.body.classList.toggle('drawer-open'); }
+
 document.getElementById('langToggle').addEventListener('click', (e) => {
   if (e.target.tagName !== 'BUTTON') return;
   if (e.target.dataset.lang === currentLang) return;
@@ -401,10 +500,21 @@ document.getElementById('themeToggle').addEventListener('click', (e) => {
   applyTheme(e.target.dataset.theme);
 });
 
-document.querySelector('.brand').addEventListener('click', () => showWelcome());
+document.querySelector('.brand').addEventListener('click', () => {
+  showWelcome();
+  closeDrawer();
+});
+
+const mb = document.getElementById('mobileMenuBtn');
+if (mb) mb.addEventListener('click', toggleDrawer);
+const ov = document.getElementById('drawerOverlay');
+if (ov) ov.addEventListener('click', closeDrawer);
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeDrawer();
+});
 
 function init() {
-  // Restore saved preferences
   try {
     const savedTheme = localStorage.getItem('kb-theme');
     if (savedTheme && THEMES[savedTheme]) currentTheme = savedTheme;
@@ -424,12 +534,18 @@ function init() {
   }
 }
 
-// Bootstrap: load data.json then run init()
 async function bootstrap() {
   try {
     const res = await fetch('./data.json');
     if (!res.ok) throw new Error('HTTP ' + res.status);
-    KB = await res.json();
+    const payload = await res.json();
+    if (Array.isArray(payload)) {
+      VOLUMES = [{num: 1, title_en: 'All topics', title_zh: '\u5168\u90e8\u4e3b\u9898', subtitle_en: '', subtitle_zh: ''}];
+      KB = payload.map(t => ({...t, volume: 1}));
+    } else {
+      VOLUMES = payload.volumes || [];
+      KB = payload.topics || [];
+    }
   } catch (err) {
     document.body.innerHTML = '<div style="padding: 60px; font-family: system-ui; color: #a83232;"><h1>Could not load data.json</h1><p>Make sure index.html and data.json are served from the same folder.</p><pre>' + err + '</pre><p style="margin-top: 24px; font-size: 14px; color: #666;">Tip: open this folder with a local web server, e.g. <code>python3 -m http.server</code>, then visit http://localhost:8000</p></div>';
     return;

@@ -1,8 +1,21 @@
 # Topic manifest. Controls sidebar order and titles.
-# Each topic points to its directory under content/.
+# Volumes group topics into thematic books.
+
+volumes:
+  - num: 1
+    title_en: "Vol. I · Foundations"
+    title_zh: "卷一 · 技术基础"
+    subtitle_en: "AI technical fundamentals for delivery"
+    subtitle_zh: "交付者需要的 AI 技术基础"
+  - num: 2
+    title_en: "Vol. II · Project Delivery 101"
+    title_zh: "卷二 · 项目交付 101"
+    subtitle_en: "Shaping, scope, risk, rhythm, launch"
+    subtitle_zh: "塑形、范围、风险、节奏、上线"
 
 topics:
   - num: 1
+    volume: 1
     slug: topic-01-ai-technical-fundamentals
     title_en: "AI Technical Fundamentals"
     title_zh: "AI 技术基础"
@@ -10,6 +23,7 @@ topics:
     subtitle_zh: "Token、训练、幻觉、采样、模型类型"
 
   - num: 2
+    volume: 1
     slug: topic-02-models-and-providers
     title_en: "Models and Providers"
     title_zh: "模型与厂商"
@@ -17,6 +31,7 @@ topics:
     subtitle_zh: "前沿实验室、模型层级、基准、选型"
 
   - num: 3
+    volume: 1
     slug: topic-03-prompting
     title_en: "Prompting"
     title_zh: "Prompt 工程"
@@ -24,6 +39,7 @@ topics:
     subtitle_zh: "System prompt、few shot、结构化输出、失败模式"
 
   - num: 4
+    volume: 1
     slug: topic-04-retrieval-augmented-generation
     title_en: "Retrieval Augmented Generation"
     title_zh: "检索增强生成 (RAG)"
@@ -31,6 +47,7 @@ topics:
     subtitle_zh: "RAG 基础、pipeline、vector DB、chunking、不适用情形"
 
   - num: 5
+    volume: 1
     slug: topic-05-agents
     title_en: "Agents"
     title_zh: "Agents"
@@ -38,6 +55,7 @@ topics:
     subtitle_zh: "工具、单 agent 与多 agent、规划、失败模式"
 
   - num: 6
+    volume: 1
     slug: topic-06-fine-tuning
     title_en: "Fine Tuning"
     title_zh: "Fine Tuning"
@@ -45,6 +63,7 @@ topics:
     subtitle_zh: "Prompting、RAG、fine tuning 对比,SFT、DPO、LoRA、蒸馏"
 
   - num: 7
+    volume: 1
     slug: topic-07-evaluations
     title_en: "Evaluations"
     title_zh: "评估 (Evals)"
@@ -52,6 +71,7 @@ topics:
     subtitle_zh: "Demo 陷阱、评估类型、黄金数据集、回归测试、在线评估"
 
   - num: 8
+    volume: 1
     slug: topic-08-infrastructure-and-stack
     title_en: "Infrastructure and Stack"
     title_zh: "基础设施与技术栈"
@@ -59,6 +79,7 @@ topics:
     subtitle_zh: "参考栈、编排、托管、延迟、可观察性"
 
   - num: 9
+    volume: 1
     slug: topic-09-cost-and-unit-economics
     title_en: "Cost and Unit Economics"
     title_zh: "成本与单位经济"
@@ -66,15 +87,15 @@ topics:
     subtitle_zh: "Token 定价、分层、缓存、批处理 vs 实时、CPUM"
 
   - num: 10
+    volume: 1
     slug: topic-10-safety-security-and-risk
     title_en: "Safety, Security, and Risk"
     title_zh: "安全、保密与风险"
     subtitle_en: "Prompt injection, privacy, IP, hallucination in regulated, responsible AI"
     subtitle_zh: "Prompt injection、隐私、IP、监管幻觉、负责任 AI"
 
-  # ===== Volume II: Project Delivery 101 =====
-
   - num: 11
+    volume: 2
     slug: topic-11-project-shaping
     title_en: "Project Shaping"
     title_zh: "项目塑形"
@@ -82,6 +103,7 @@ topics:
     subtitle_zh: "读 SOW、第一周该问的问题、use case 拆分、交付模式、何时该说不启动"
 
   - num: 12
+    volume: 2
     slug: topic-12-requirements-that-survive-llms
     title_en: "Requirements That Survive LLMs"
     title_zh: "能挺过 LLM 现实的需求"
@@ -89,6 +111,7 @@ topics:
     subtitle_zh: "输入-输出表、evals 作为规格、99% 的对话、三栏 workshop、v1 不做清单"
 
   - num: 13
+    volume: 2
     slug: topic-13-scope-management-under-hype
     title_en: "Scope Management Under Hype"
     title_zh: "在炒作环境下管范围"
@@ -96,6 +119,7 @@ topics:
     subtitle_zh: "creep vs evolution vs correction、再加一个 use case、change request、parking lot、高管加范围"
 
   - num: 14
+    volume: 2
     slug: topic-14-risk-and-dependency-mapping
     title_en: "Risk and Dependency Mapping"
     title_zh: "风险和依赖识别"
@@ -103,6 +127,7 @@ topics:
     subtitle_zh: "十二种常见风险、控制 vs 影响 vs 跟踪、数据关键路径、早期 engage 法务和安全、风险登记表"
 
   - num: 15
+    volume: 2
     slug: topic-15-stakeholder-mapping-and-working-rhythms
     title_en: "Stakeholder Mapping and Working Rhythms"
     title_zh: "干系人地图和工作节奏"
@@ -110,8 +135,17 @@ topics:
     subtitle_zh: "Map sponsor 用户 阻断者 影响者、设计节奏、决策会 vs 汇报会、影子 stakeholder、sponsor 和 IT 分歧"
 
   - num: 16
+    volume: 2
     slug: topic-16-delivery-rhythm-and-velocity-signals
     title_en: "Delivery Rhythm and Velocity Signals"
     title_zh: "交付节奏与速度信号"
     subtitle_en: "The S curve, five weekly health signals, right thing vs thing right, team morale as leading indicator, when to stop and redo"
     subtitle_zh: "S 曲线、五个每周健康信号、做对的事 vs 把事做对、团队士气作为先行指标、何时停下重做"
+
+  - num: 17
+    volume: 2
+    slug: topic-17-launch-handover-and-first-30-days
+    title_en: "Launch, Handover, and the First 30 Days After"
+    title_zh: "上线、移交、上线后第一个月"
+    subtitle_en: "Three column readiness checklist, runbook design, monitoring priorities, ward rounds cadence, retrospective that lands"
+    subtitle_zh: "三栏 readiness checklist、runbook 设计、监控优先级、巡房节奏、让客户记住价值的复盘会"

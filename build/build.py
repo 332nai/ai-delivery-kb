@@ -48,27 +48,38 @@ def transclude_charts(body, path):
 # ---------- Tiny YAML reader for our flat topics.yaml ----------
 
 def parse_topics_yaml(path):
-    """Parse content/topics.yaml into a list of topic dicts.
-    We support only what we actually use: a `topics:` list with simple key/value pairs.
-    No nested structures, no anchors. Keeps the build dependency-free.
+    """Parse content/topics.yaml into (volumes_list, topics_list).
+    Supports a top-level `volumes:` list and a top-level `topics:` list.
+    Each list contains items with simple key/value pairs. No nested structures.
     """
     text = path.read_text(encoding="utf-8")
+    volumes = []
     topics = []
+    current_list = None  # references either volumes or topics
     current = None
     
     for raw in text.splitlines():
         line = raw.rstrip()
-        # Strip full-line comments and blanks
         if not line.strip() or line.lstrip().startswith("#"):
             continue
+        if line.strip() == "volumes:":
+            if current is not None and current_list is not None:
+                current_list.append(current)
+                current = None
+            current_list = volumes
+            continue
         if line.strip() == "topics:":
+            if current is not None and current_list is not None:
+                current_list.append(current)
+                current = None
+            current_list = topics
             continue
         
         # New item starts with "  - key: value"
         m = re.match(r"^  -\s*(\w+):\s*(.*)$", line)
         if m:
-            if current is not None:
-                topics.append(current)
+            if current is not None and current_list is not None:
+                current_list.append(current)
             current = {}
             key, val = m.group(1), m.group(2)
             current[key] = _yaml_scalar(val)
@@ -81,10 +92,10 @@ def parse_topics_yaml(path):
             current[key] = _yaml_scalar(val)
             continue
     
-    if current is not None:
-        topics.append(current)
+    if current is not None and current_list is not None:
+        current_list.append(current)
     
-    return topics
+    return volumes, topics
 
 
 def _yaml_scalar(val):
@@ -148,7 +159,7 @@ def _extract_block(body, lang, path):
 # ---------- Main build ----------
 
 def build():
-    topics_meta = parse_topics_yaml(CONTENT / "topics.yaml")
+    volumes_meta, topics_meta = parse_topics_yaml(CONTENT / "topics.yaml")
     output_topics = []
     
     total_items = 0
@@ -178,6 +189,7 @@ def build():
         
         topic_out = {
             "num": tmeta["num"],
+            "volume": tmeta.get("volume", 1),
             "title_en": tmeta["title_en"],
             "title_zh": tmeta["title_zh"],
             "subtitle_en": tmeta["subtitle_en"],
@@ -186,13 +198,19 @@ def build():
         }
         output_topics.append(topic_out)
         total_items += len(items)
-        print(f"  Topic {tmeta['num']:2d}: {tmeta['title_en']:<40} {len(items)} items")
+        print(f"  Topic {tmeta['num']:2d} (V{topic_out['volume']}): {tmeta['title_en']:<40} {len(items)} items")
+    
+    # Build the final data structure: {volumes, topics}
+    output_data = {
+        "volumes": volumes_meta,
+        "topics": output_topics,
+    }
     
     # Write data.json
     SITE.mkdir(exist_ok=True)
     data_path = SITE / "data.json"
     data_path.write_text(
-        json.dumps(output_topics, ensure_ascii=False, indent=None),
+        json.dumps(output_data, ensure_ascii=False, indent=None),
         encoding="utf-8"
     )
     

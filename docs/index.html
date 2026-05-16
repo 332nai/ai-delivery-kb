@@ -2,7 +2,8 @@
 <html lang="en" data-theme="editorial">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#faf8f3">
 <title>AI Delivery Knowledge Base / AI 交付知识库</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -654,11 +655,12 @@ body {
   color: var(--ink);
 }
 
-/* Standalone bold paragraphs (Definition, Why it matters, How it works, PM decision points, Watch outs) */
-.article-body p:has(> strong:only-child) {
+/* Standalone bold paragraphs (Definition, Why it matters, How it works, PM decision points, Watch outs).
+   Tagged by JS as .is-section-header to distinguish from paragraphs with inline strong emphasis. */
+.article-body p.is-section-header {
   margin: 40px 0 14px;
 }
-.article-body p > strong:only-child {
+.article-body p.is-section-header > strong {
   display: inline-block;
   font-family: var(--sans);
   font-size: 11px;
@@ -668,7 +670,7 @@ body {
   color: var(--accent);
   position: relative;
 }
-[data-theme="editorial"] .article-body p > strong:only-child::before {
+[data-theme="editorial"] .article-body p.is-section-header > strong::before {
   content: '';
   position: absolute;
   top: -10px;
@@ -677,28 +679,28 @@ body {
   height: 1px;
   background: var(--accent);
 }
-[data-theme="atelier"] .article-body p > strong:only-child {
+[data-theme="atelier"] .article-body p.is-section-header > strong {
   font-family: var(--sans);
   font-weight: 500;
   letter-spacing: 0.2em;
 }
-[data-theme="atelier"] .article-body p > strong:only-child::before {
+[data-theme="atelier"] .article-body p.is-section-header > strong::before {
   content: '\2022\00a0\00a0';
   color: var(--accent);
   font-weight: 400;
 }
-[data-theme="terminal"] .article-body p > strong:only-child {
+[data-theme="terminal"] .article-body p.is-section-header > strong {
   font-family: var(--mono);
   font-weight: 500;
   font-size: 12px;
   text-transform: lowercase;
   letter-spacing: 0;
 }
-[data-theme="terminal"] .article-body p > strong:only-child::before {
+[data-theme="terminal"] .article-body p.is-section-header > strong::before {
   content: "[ ";
   color: var(--ink-muted);
 }
-[data-theme="terminal"] .article-body p > strong:only-child::after {
+[data-theme="terminal"] .article-body p.is-section-header > strong::after {
   content: " ]";
   color: var(--ink-muted);
 }
@@ -926,25 +928,7 @@ body {
   font-family: 'Noto Sans SC', var(--mono);
 }
 
-/* Mobile */
-@media (max-width: 900px) {
-  .app { grid-template-columns: 1fr; }
-  .sidebar {
-    position: relative;
-    height: auto;
-    border-right: 0;
-    border-bottom: 1px solid var(--rule);
-    max-height: 60vh;
-  }
-  .main-inner { padding: 36px 24px 80px; }
-  .breadcrumb { padding: 12px 24px; }
-  .welcome-title { font-size: 36px; }
-  [data-theme="atelier"] .welcome-title { font-size: 44px; }
-  [data-theme="terminal"] .welcome-title { font-size: 26px; }
-  .topic-grid { grid-template-columns: 1fr; }
-  .article-title { font-size: 28px; }
-  [data-lang="zh"] .article-title { font-size: 26px; }
-}
+/* Mobile styles are defined further down, with the full drawer setup */
 
 /* === Charts === */
 /* Wrapper around inline SVG charts that come from {{chart: name}} transclusion */
@@ -968,9 +952,449 @@ body {
   margin: 20px 0;
 }
 
+/* ============================================================
+   Volume groups in sidebar
+   ============================================================ */
+.volume-header {
+  list-style: none;
+  padding: 0 0 4px;
+  margin: 0;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 12px;
+}
+.volume-header-spaced { margin-top: 28px; }
+.volume-title {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+[data-theme="editorial"] .volume-title {
+  font-family: var(--serif);
+  font-style: italic;
+  text-transform: none;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--accent);
+}
+[data-theme="atelier"] .volume-title {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 11px;
+}
+[data-theme="terminal"] .volume-title {
+  font-family: var(--mono);
+  text-transform: lowercase;
+  letter-spacing: 0;
+  font-size: 12px;
+}
+[data-theme="terminal"] .volume-title::before { content: "## "; color: var(--ink-muted); }
+.volume-subtitle {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 11px;
+  color: var(--ink-muted);
+  line-height: 1.35;
+  padding-bottom: 10px;
+}
+[data-theme="terminal"] .volume-subtitle { font-style: normal; font-family: var(--mono); opacity: 0.6; }
+
+/* ============================================================
+   Welcome page: volume sections
+   ============================================================ */
+.welcome-volume { margin-bottom: 56px; }
+.welcome-volume:last-child { margin-bottom: 0; }
+.welcome-volume-header {
+  margin-bottom: 24px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--rule);
+}
+.welcome-volume-title {
+  font-family: var(--display-font);
+  font-weight: var(--display-weight);
+  font-size: 28px;
+  line-height: 1.2;
+  letter-spacing: var(--display-letter);
+  margin-bottom: 6px;
+  color: var(--ink);
+}
+[data-theme="editorial"] .welcome-volume-title {
+  font-style: italic;
+  font-weight: 400;
+}
+[data-theme="atelier"] .welcome-volume-title { font-weight: 300; font-size: 32px; }
+[data-theme="terminal"] .welcome-volume-title { font-family: var(--mono); font-size: 20px; font-weight: 500; }
+[data-theme="terminal"] .welcome-volume-title::before { content: "## "; color: var(--accent); }
+.welcome-volume-subtitle {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 15px;
+  color: var(--ink-muted);
+  line-height: 1.4;
+}
+[data-theme="terminal"] .welcome-volume-subtitle { font-style: normal; font-family: var(--mono); font-size: 12px; opacity: 0.7; }
+
+/* ============================================================
+   Breadcrumb: structured elements for compact mobile layout
+   ============================================================ */
+.breadcrumb .crumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.breadcrumb .crumb-home { gap: 6px; }
+.breadcrumb .crumb-current {
+  color: var(--accent);
+  font-weight: 500;
+  flex-shrink: 1;
+  min-width: 0;
+}
+.breadcrumb .crumb-num {
+  color: var(--accent);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.breadcrumb .crumb-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.breadcrumb .crumb-topic { flex-shrink: 0; }
+
+/* ============================================================
+   Article TOC: mini table of contents at top of article body
+   ============================================================ */
+.article-toc {
+  margin: 0 0 36px;
+  padding: 18px 22px;
+  background: var(--paper);
+  border-left: 2px solid var(--rule);
+  border-radius: 0 4px 4px 0;
+  max-width: 680px;
+}
+[data-theme="atelier"] .article-toc {
+  background: var(--bg-elevated);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+}
+[data-theme="terminal"] .article-toc {
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-left: 1px solid var(--accent);
+  border-radius: 2px;
+}
+.article-toc-label {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-bottom: 10px;
+}
+[data-theme="terminal"] .article-toc-label { font-family: var(--mono); }
+.article-toc ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+}
+.article-toc li {
+  font-family: var(--sans);
+  font-size: 13px;
+}
+[data-theme="terminal"] .article-toc li { font-family: var(--mono); font-size: 12px; }
+.article-toc a {
+  color: var(--ink-soft);
+  text-decoration: none;
+  cursor: pointer;
+  border-bottom: 1px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+.article-toc a:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+[data-lang="zh"] .article-toc li { font-family: var(--serif); font-size: 13px; }
+[data-lang="zh"][data-theme="terminal"] .article-toc li { font-family: 'Noto Sans SC', var(--mono); }
+
+/* ============================================================
+   Table horizontal scroll wrapper
+   ============================================================ */
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 22px 0 30px;
+  max-width: 100%;
+}
+.table-scroll table {
+  margin: 0;
+}
+.table-scroll::-webkit-scrollbar { height: 6px; }
+.table-scroll::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 3px; }
+
+/* ============================================================
+   Mobile top bar (visible only on small screens)
+   ============================================================ */
+.mobile-bar {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 52px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--rule);
+  z-index: 100;
+  padding: 0 16px;
+  padding-top: env(safe-area-inset-top);
+  align-items: center;
+  gap: 12px;
+}
+.mobile-menu-btn {
+  background: none;
+  border: 0;
+  color: var(--ink);
+  padding: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+.mobile-menu-btn:hover { background: var(--paper); }
+.mobile-menu-btn svg { width: 22px; height: 22px; }
+.mobile-bar-brand {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  cursor: pointer;
+}
+.mobile-bar-title {
+  font-family: var(--display-font);
+  font-weight: 500;
+  font-size: 17px;
+  color: var(--ink);
+}
+[data-theme="editorial"] .mobile-bar-title { font-style: italic; font-weight: 400; }
+.mobile-bar-sub {
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* ============================================================
+   Drawer overlay (mobile sidebar backdrop)
+   ============================================================ */
+.drawer-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 150;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+/* ============================================================
+   Mobile layout: drawer sidebar, top bar, tightened article
+   ============================================================ */
+@media (max-width: 900px) {
+  /* Mobile bar visible */
+  .mobile-bar { display: flex; }
+  
+  /* Body padding to clear the fixed top bar */
+  body {
+    padding-top: 52px;
+    padding-top: calc(52px + env(safe-area-inset-top));
+  }
+  
+  /* App becomes single-column */
+  .app { 
+    grid-template-columns: 1fr;
+    min-height: calc(100vh - 52px);
+  }
+  
+  /* Sidebar becomes a drawer */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 86%;
+    max-width: 360px;
+    height: 100vh;
+    height: 100dvh;
+    overflow-y: auto;
+    z-index: 200;
+    border-right: 1px solid var(--rule);
+    border-bottom: 0;
+    transform: translateX(-100%);
+    transition: transform 0.28s ease;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0);
+    padding-top: calc(20px + env(safe-area-inset-top));
+  }
+  
+  body.drawer-open .sidebar {
+    transform: translateX(0);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+  }
+  
+  body.drawer-open .drawer-overlay {
+    display: block;
+    opacity: 1;
+  }
+  
+  /* Main content takes full width */
+  .main { width: 100%; }
+  .main-inner {
+    padding: 28px 20px 80px;
+  }
+  
+  /* Breadcrumb: compact, hide home label and topic name */
+  .breadcrumb {
+    padding: 10px 20px;
+    font-size: 11px;
+    gap: 6px;
+  }
+  .breadcrumb .crumb-home .crumb-label { display: none; }
+  .breadcrumb .crumb-topic { display: none; }
+  .breadcrumb .crumb-topic + .sep { display: none; }
+  .breadcrumb .crumb-current {
+    flex: 1;
+    min-width: 0;
+  }
+  .breadcrumb .crumb-title {
+    max-width: 100%;
+  }
+  
+  /* Welcome page */
+  .welcome-title { font-size: 30px; line-height: 1.15; }
+  [data-theme="atelier"] .welcome-title { font-size: 36px; }
+  [data-theme="terminal"] .welcome-title { font-size: 24px; }
+  .welcome-subtitle { font-size: 17px; margin-bottom: 32px; }
+  .welcome-desc { font-size: 15px; margin-bottom: 40px; }
+  .welcome-volume { margin-bottom: 40px; }
+  .welcome-volume-title { font-size: 22px; }
+  [data-theme="atelier"] .welcome-volume-title { font-size: 26px; }
+  .welcome-volume-subtitle { font-size: 13px; }
+  
+  .topic-grid { grid-template-columns: 1fr; }
+  .topic-card { padding: 18px 20px; }
+  .topic-card-title { font-size: 19px; }
+  [data-theme="atelier"] .topic-card-title { font-size: 22px; }
+  
+  /* Article body: bigger line height, slightly smaller font */
+  .article-title { font-size: 26px; line-height: 1.2; }
+  [data-lang="zh"] .article-title { font-size: 24px; }
+  [data-theme="atelier"] .article-title { font-size: 30px; }
+  .article-alt-title { font-size: 16px; margin-bottom: 24px; padding-bottom: 18px; }
+  
+  .article-body {
+    font-size: 16px;
+    line-height: 1.75;
+  }
+  .article-body p {
+    margin: 0 0 18px;
+    max-width: 100%;
+  }
+  .article-body ul, .article-body ol { max-width: 100%; padding-left: 20px; }
+  
+  /* Tighter section spacing on small screens */
+  .article-body p.is-section-header { margin: 32px 0 12px; }
+  .article-body h3 { margin: 32px 0 12px; }
+  
+  /* Takeaway: tighter */
+  .takeaway { margin: 24px 0; padding: 18px 20px; max-width: 100%; }
+  .takeaway-body { font-size: 16px; }
+  [data-theme="atelier"] .takeaway-body { font-size: 17px; }
+  
+  /* Qantas section */
+  .qantas-section { margin-top: 40px; padding-top: 24px; }
+  .qantas-mark::before, .qantas-mark::after { max-width: 30px; }
+  
+  /* Article TOC: stacks vertically on mobile */
+  .article-toc {
+    padding: 14px 16px;
+    margin-bottom: 28px;
+  }
+  .article-toc ul {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  /* Item nav at bottom: stacks vertically */
+  .item-nav {
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 60px;
+    padding-top: 24px;
+  }
+  .item-nav .prev, .item-nav .next {
+    text-align: left;
+  }
+  
+  /* Tables: ensure they don't break layout */
+  .table-scroll { margin: 18px -20px 24px; padding: 0 20px; }
+  .article-body table {
+    font-size: 13px;
+    min-width: 100%;
+  }
+  .article-body th, .article-body td {
+    padding: 10px 12px;
+  }
+  
+  /* Brand inside drawer: less prominent, since mobile bar shows the brand */
+  .sidebar .brand {
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+  }
+  .sidebar .brand-mark { font-size: 9px; }
+  .sidebar .brand-title { font-size: 20px; }
+  .sidebar .brand-title-zh { font-size: 15px; }
+  
+  /* Controls inside drawer: wrap nicely */
+  .controls { gap: 10px; margin-bottom: 22px; }
+}
+
+/* Very small screens: even tighter */
+@media (max-width: 480px) {
+  .main-inner { padding: 24px 18px 64px; }
+  .breadcrumb { padding: 8px 16px; font-size: 10px; }
+  .article-title { font-size: 23px; }
+  [data-lang="zh"] .article-title { font-size: 22px; }
+  .welcome-title { font-size: 26px; }
+  .mobile-bar { padding: 0 12px; gap: 10px; }
+}
+
 </style>
 </head>
 <body>
+
+<header class="mobile-bar" id="mobileBar">
+  <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="4" y1="7" x2="20" y2="7"/>
+      <line x1="4" y1="12" x2="20" y2="12"/>
+      <line x1="4" y1="17" x2="20" y2="17"/>
+    </svg>
+  </button>
+  <div class="mobile-bar-brand" onclick="showWelcome(); closeDrawer();">
+    <span class="mobile-bar-title">AI Delivery</span>
+    <span class="mobile-bar-sub">KB</span>
+  </div>
+</header>
+
+<div class="drawer-overlay" id="drawerOverlay"></div>
 
 <div class="app">
 
@@ -1017,7 +1441,8 @@ body {
 
 <script>
 
-let KB = [];
+let KB = [];        // array of topics (legacy name kept)
+let VOLUMES = [];   // array of volume metadata
 
 const STRINGS = {
   en: {
@@ -1033,7 +1458,10 @@ const STRINGS = {
     next: 'Next',
     home: 'Home',
     langLabel: 'Lang',
-    themeLabel: 'Style'
+    themeLabel: 'Style',
+    menu: 'Menu',
+    onThisPage: 'On this page',
+    close: 'Close'
   },
   zh: {
     brandLine1: 'AI \u4ea4\u4ed8',
@@ -1048,18 +1476,21 @@ const STRINGS = {
     next: '\u4e0b\u4e00\u6761',
     home: '\u9996\u9875',
     langLabel: '\u8bed\u8a00',
-    themeLabel: '\u98ce\u683c'
+    themeLabel: '\u98ce\u683c',
+    menu: '\u76ee\u5f55',
+    onThisPage: '\u672c\u9875\u5bfc\u822a',
+    close: '\u5173\u95ed'
   }
 };
 
-// Numbers in the brand strip and welcome subtitle are derived from KB, not hardcoded.
 function getNavMeta() {
   const topicCount = KB.length;
   const itemCount = KB.reduce((acc, t) => acc + t.items.length, 0);
+  const volumeCount = VOLUMES.length;
   if (currentLang === 'en') {
-    return `${topicCount} topics &middot; ${itemCount} items`;
+    return `${volumeCount} volumes &middot; ${topicCount} topics &middot; ${itemCount} items`;
   }
-  return `${topicCount} \u4e2a\u4e3b\u9898 &middot; ${itemCount} \u4e2a\u6761\u76ee`;
+  return `${volumeCount} \u5377 &middot; ${topicCount} \u4e2a\u4e3b\u9898 &middot; ${itemCount} \u4e2a\u6761\u76ee`;
 }
 
 function getWelcomeSubtitle() {
@@ -1128,7 +1559,7 @@ function parseMarkdown(text) {
       flushList();
       const headerCells = line.split('|').slice(1, -1).map(c => c.trim());
       i += 2;
-      let t = '<table><thead><tr>';
+      let t = '<div class="table-scroll"><table><thead><tr>';
       headerCells.forEach(c => t += '<th>' + inline(c) + '</th>');
       t += '</tr></thead><tbody>';
       while (i < lines.length && lines[i].trim().startsWith('|')) {
@@ -1138,7 +1569,7 @@ function parseMarkdown(text) {
         t += '</tr>';
         i++;
       }
-      t += '</tbody></table>\n';
+      t += '</tbody></table></div>\n';
       html += t;
       continue;
     }
@@ -1158,9 +1589,6 @@ function parseMarkdown(text) {
     if (line.trim() === '') { flushList(); i++; continue; }
     if (line.startsWith('### ')) { flushList(); html += '<h3>' + inline(line.slice(4)) + '</h3>\n'; i++; continue; }
 
-    // Raw HTML block: a line that starts with a block-level tag at column 0.
-    // We pass it through unchanged until we hit a blank line. This is how
-    // chart transclusions ({{chart: name}} -> inline SVG wrapper) survive.
     if (/^<(div|svg|figure|section|aside|table|nav|details|p|blockquote|pre)\b/.test(line)) {
       flushList();
       let buf = line;
@@ -1194,11 +1622,11 @@ function getTitle(t) { return t['title_' + currentLang]; }
 function getAltTitle(t) { return t['title_' + (currentLang === 'en' ? 'zh' : 'en')]; }
 function getBody(it) { return it['body_' + currentLang]; }
 function getSubtitle(t) { return t['subtitle_' + currentLang]; }
+function topicsInVolume(volNum) { return KB.filter(t => t.volume === volNum); }
 
 function renderBreadcrumb() {
   const bc = document.getElementById('breadcrumb');
   if (!currentItem) {
-    // Welcome page: hide breadcrumb
     bc.style.display = 'none';
     return;
   }
@@ -1206,56 +1634,78 @@ function renderBreadcrumb() {
   const topic = KB.find(t => t.num === currentItem.topic);
   const item = topic.items.find(it => it.num === currentItem.item);
   bc.innerHTML = `
-    <a onclick="showWelcome()">
+    <a class="crumb crumb-home" onclick="showWelcome()" title="${getStr('home')}">
       <svg class="home-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
         <path d="M2 7L8 2L14 7V14H10V10H6V14H2V7Z"/>
       </svg>
-      <span>${getStr('home')}</span>
+      <span class="crumb-label">${getStr('home')}</span>
     </a>
     <span class="sep">/</span>
-    <a onclick="showItem(${topic.num}, '${topic.items[0].num}')">${getTitle(topic)}</a>
+    <a class="crumb crumb-topic" onclick="showItem(${topic.num}, '${topic.items[0].num}')">${getTitle(topic)}</a>
     <span class="sep">/</span>
-    <span class="current">${item.num}&nbsp;&middot;&nbsp;${getTitle(item)}</span>
+    <span class="crumb crumb-current">
+      <span class="crumb-num">${item.num}</span>
+      <span class="crumb-title">${getTitle(item)}</span>
+    </span>
   `;
 }
 
 function renderSidebar() {
   const list = document.getElementById('topicList');
   list.innerHTML = '';
-  KB.forEach(topic => {
-    const li = document.createElement('li');
-    li.className = 'topic';
-    li.dataset.topic = topic.num;
-    if (currentItem && currentItem.topic === topic.num) li.classList.add('open');
-
-    const header = document.createElement('div');
-    header.className = 'topic-header';
-    header.innerHTML = `
-      <span class="topic-num">T${String(topic.num).padStart(2, '0')}</span>
-      <span class="topic-name">${getTitle(topic)}</span>
-      <span class="topic-chevron">\u25b8</span>
+  
+  VOLUMES.forEach((vol, vIdx) => {
+    const topics = topicsInVolume(vol.num);
+    if (topics.length === 0) return;
+    
+    const volHeader = document.createElement('li');
+    volHeader.className = 'volume-header';
+    if (vIdx > 0) volHeader.classList.add('volume-header-spaced');
+    volHeader.innerHTML = `
+      <div class="volume-title">${vol['title_' + currentLang]}</div>
+      <div class="volume-subtitle">${vol['subtitle_' + currentLang]}</div>
     `;
-    header.onclick = () => li.classList.toggle('open');
+    list.appendChild(volHeader);
+    
+    topics.forEach(topic => {
+      const li = document.createElement('li');
+      li.className = 'topic';
+      li.dataset.topic = topic.num;
+      if (currentItem && currentItem.topic === topic.num) li.classList.add('open');
 
-    const subtitle = document.createElement('div');
-    subtitle.className = 'topic-subtitle';
-    subtitle.textContent = getSubtitle(topic);
+      const header = document.createElement('div');
+      header.className = 'topic-header';
+      header.innerHTML = `
+        <span class="topic-num">T${String(topic.num).padStart(2, '0')}</span>
+        <span class="topic-name">${getTitle(topic)}</span>
+        <span class="topic-chevron">\u25b8</span>
+      `;
+      header.onclick = () => li.classList.toggle('open');
 
-    const items = document.createElement('ul');
-    items.className = 'item-list';
-    topic.items.forEach(item => {
-      const a = document.createElement('a');
-      a.className = 'item-link';
-      if (currentItem && currentItem.item === item.num) a.classList.add('active');
-      a.innerHTML = `<span class="item-num">${item.num}</span><span>${getTitle(item)}</span>`;
-      a.onclick = (e) => { e.preventDefault(); showItem(topic.num, item.num); };
-      items.appendChild(a);
+      const subtitle = document.createElement('div');
+      subtitle.className = 'topic-subtitle';
+      subtitle.textContent = getSubtitle(topic);
+
+      const items = document.createElement('ul');
+      items.className = 'item-list';
+      topic.items.forEach(item => {
+        const a = document.createElement('a');
+        a.className = 'item-link';
+        if (currentItem && currentItem.item === item.num) a.classList.add('active');
+        a.innerHTML = `<span class="item-num">${item.num}</span><span class="item-link-title">${getTitle(item)}</span>`;
+        a.onclick = (e) => { 
+          e.preventDefault(); 
+          showItem(topic.num, item.num); 
+          closeDrawer();
+        };
+        items.appendChild(a);
+      });
+
+      li.appendChild(header);
+      li.appendChild(subtitle);
+      li.appendChild(items);
+      list.appendChild(li);
     });
-
-    li.appendChild(header);
-    li.appendChild(subtitle);
-    li.appendChild(items);
-    list.appendChild(li);
   });
 
   document.querySelectorAll('.brand-title')[0].textContent = getStr('brandLine1');
@@ -1265,25 +1715,44 @@ function renderSidebar() {
   if (bm) bm.textContent = getStr('eyebrow');
   document.getElementById('langLabel').textContent = getStr('langLabel');
   document.getElementById('themeLabel').textContent = getStr('themeLabel');
-  // Update theme button labels
   Object.keys(THEMES).forEach(k => {
     const btn = document.querySelector(`.theme-toggle button[data-theme="${k}"]`);
     if (btn) btn.textContent = THEMES[k][currentLang];
   });
+  
+  const mb = document.getElementById('mobileMenuBtn');
+  if (mb) mb.setAttribute('aria-label', getStr('menu'));
 }
 
 function renderWelcome() {
   const w = document.getElementById('welcome');
-  let grid = '';
-  KB.forEach(topic => {
-    const count = topic.items.length;
-    grid += `
-      <div class="topic-card" onclick="showItem(${topic.num}, '${topic.items[0].num}')">
-        <div class="topic-card-num">Topic ${String(topic.num).padStart(2, '0')}</div>
-        <div class="topic-card-title">${getTitle(topic)}</div>
-        <div class="topic-card-sub">${getSubtitle(topic)}</div>
-        <div class="topic-card-count">${count} ${getStr('items')}</div>
-      </div>
+  
+  let volumeSections = '';
+  VOLUMES.forEach(vol => {
+    const topics = topicsInVolume(vol.num);
+    if (topics.length === 0) return;
+    
+    let grid = '';
+    topics.forEach(topic => {
+      const count = topic.items.length;
+      grid += `
+        <div class="topic-card" onclick="showItem(${topic.num}, '${topic.items[0].num}')">
+          <div class="topic-card-num">Topic ${String(topic.num).padStart(2, '0')}</div>
+          <div class="topic-card-title">${getTitle(topic)}</div>
+          <div class="topic-card-sub">${getSubtitle(topic)}</div>
+          <div class="topic-card-count">${count} ${getStr('items')}</div>
+        </div>
+      `;
+    });
+    
+    volumeSections += `
+      <section class="welcome-volume">
+        <div class="welcome-volume-header">
+          <div class="welcome-volume-title">${vol['title_' + currentLang]}</div>
+          <div class="welcome-volume-subtitle">${vol['subtitle_' + currentLang]}</div>
+        </div>
+        <div class="topic-grid">${grid}</div>
+      </section>
     `;
   });
 
@@ -1293,10 +1762,43 @@ function renderWelcome() {
     <p class="welcome-subtitle">${getWelcomeSubtitle()}</p>
     <div class="welcome-rule"></div>
     <p class="welcome-desc">${getStr('welcomeDesc')}</p>
-    <div class="nav-meta" style="margin-bottom: 14px;">${getStr('browseTopics')}</div>
-    <div class="topic-grid">${grid}</div>
+    ${volumeSections}
   `;
   w.setAttribute('data-lang', currentLang);
+}
+
+// Extract section headers from the rendered article body to build a mini TOC.
+// We only count a paragraph as a section header if its entire text content is
+// essentially just the strong element (allowing for trailing punctuation only).
+// We ALSO mark those paragraphs with a class so CSS can style only the real
+// section headers, leaving inline emphasis as plain bold.
+function buildTOC(articleBodyEl) {
+  const toc = [];
+  // Process all article-body sections (main and Qantas)
+  const allBodies = articleBodyEl.parentElement.querySelectorAll('.article-body');
+  const punctRegex = /[\s\u0020-\u002f\u003a-\u0040\u005b-\u0060\u007b-\u007e\u3000-\u303f\uff00-\uffef.,;:!?'"()\[\]{}\-_=+/\\|<>]/g;
+  let idCounter = 0;
+  allBodies.forEach(bodyEl => {
+    const strongs = bodyEl.querySelectorAll('p > strong:only-child');
+    strongs.forEach(s => {
+      const text = s.textContent.trim();
+      const parentText = s.parentElement.textContent;
+      const outside = parentText.replace(s.textContent, '');
+      const outsideClean = outside.replace(punctRegex, '');
+      if (outsideClean.length > 0) return;  // not a section header, leave alone
+      
+      // It IS a section header: tag the parent paragraph
+      s.parentElement.classList.add('is-section-header');
+      
+      // Add to TOC only for the main body (not Qantas), and skip Takeaway
+      if (bodyEl.id !== 'articleMainBody') return;
+      if (/^(Takeaway|\u8981\u70b9\u603b\u7ed3)[:\uff1a]/.test(text)) return;
+      const id = 'sec-' + (idCounter++) + '-' + text.replace(/[^a-zA-Z0-9\u4e00-\u9fff]+/g, '-').toLowerCase().substring(0, 40);
+      s.parentElement.id = id;
+      toc.push({id, text});
+    });
+  });
+  return toc;
 }
 
 function renderArticle(topicNum, itemNum) {
@@ -1338,7 +1840,7 @@ function renderArticle(topicNum, itemNum) {
     </div>
     <h1 class="article-title">${getTitle(item)}</h1>
     <p class="article-alt-title">${getAltTitle(item)}</p>
-    <div class="article-body">${parseMarkdown(mainPart)}</div>
+    <div class="article-body" id="articleMainBody">${parseMarkdown(mainPart)}</div>
     ${qantasPart ? `
       <div class="qantas-section">
         <div class="qantas-mark">${getStr('qantasMark')}</div>
@@ -1358,6 +1860,22 @@ function renderArticle(topicNum, itemNum) {
         </a>` : '<span></span>'}
     </div>
   `;
+  
+  const mainBody = document.getElementById('articleMainBody');
+  if (mainBody) {
+    const toc = buildTOC(mainBody);
+    if (toc.length >= 3) {
+      const tocHtml = `
+        <nav class="article-toc" aria-label="On this page">
+          <div class="article-toc-label">${getStr('onThisPage')}</div>
+          <ul>
+            ${toc.map(s => `<li><a href="#${s.id}" onclick="event.preventDefault(); document.getElementById('${s.id}').scrollIntoView({behavior:'smooth', block:'start'});">${s.text}</a></li>`).join('')}
+          </ul>
+        </nav>
+      `;
+      mainBody.insertAdjacentHTML('beforebegin', tocHtml);
+    }
+  }
 }
 
 function showItem(topicNum, itemNum) {
@@ -1407,6 +1925,11 @@ function applyLang(lang) {
   try { localStorage.setItem('kb-lang', lang); } catch(e) {}
 }
 
+// === Mobile drawer ===
+function openDrawer() { document.body.classList.add('drawer-open'); }
+function closeDrawer() { document.body.classList.remove('drawer-open'); }
+function toggleDrawer() { document.body.classList.toggle('drawer-open'); }
+
 document.getElementById('langToggle').addEventListener('click', (e) => {
   if (e.target.tagName !== 'BUTTON') return;
   if (e.target.dataset.lang === currentLang) return;
@@ -1419,10 +1942,21 @@ document.getElementById('themeToggle').addEventListener('click', (e) => {
   applyTheme(e.target.dataset.theme);
 });
 
-document.querySelector('.brand').addEventListener('click', () => showWelcome());
+document.querySelector('.brand').addEventListener('click', () => {
+  showWelcome();
+  closeDrawer();
+});
+
+const mb = document.getElementById('mobileMenuBtn');
+if (mb) mb.addEventListener('click', toggleDrawer);
+const ov = document.getElementById('drawerOverlay');
+if (ov) ov.addEventListener('click', closeDrawer);
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeDrawer();
+});
 
 function init() {
-  // Restore saved preferences
   try {
     const savedTheme = localStorage.getItem('kb-theme');
     if (savedTheme && THEMES[savedTheme]) currentTheme = savedTheme;
@@ -1442,12 +1976,18 @@ function init() {
   }
 }
 
-// Bootstrap: load data.json then run init()
 async function bootstrap() {
   try {
     const res = await fetch('./data.json');
     if (!res.ok) throw new Error('HTTP ' + res.status);
-    KB = await res.json();
+    const payload = await res.json();
+    if (Array.isArray(payload)) {
+      VOLUMES = [{num: 1, title_en: 'All topics', title_zh: '\u5168\u90e8\u4e3b\u9898', subtitle_en: '', subtitle_zh: ''}];
+      KB = payload.map(t => ({...t, volume: 1}));
+    } else {
+      VOLUMES = payload.volumes || [];
+      KB = payload.topics || [];
+    }
   } catch (err) {
     document.body.innerHTML = '<div style="padding: 60px; font-family: system-ui; color: #a83232;"><h1>Could not load data.json</h1><p>Make sure index.html and data.json are served from the same folder.</p><pre>' + err + '</pre><p style="margin-top: 24px; font-size: 14px; color: #666;">Tip: open this folder with a local web server, e.g. <code>python3 -m http.server</code>, then visit http://localhost:8000</p></div>';
     return;
