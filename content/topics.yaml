@@ -12,6 +12,11 @@ volumes:
     title_zh: "卷二 · 项目交付 101"
     subtitle_en: "Shaping, scope, risk, rhythm, launch"
     subtitle_zh: "塑形、范围、风险、节奏、上线"
+  - num: 3
+    title_en: "Vol. III · Communication for Delivery"
+    title_zh: "卷三 · 沟通进阶"
+    subtitle_en: "Trust, translation, hard conversations, written craft"
+    subtitle_zh: "建立信任、翻译技术、硬话怎么说、书面功夫"
 
 topics:
   - num: 1
@@ -149,3 +154,59 @@ topics:
     title_zh: "上线、移交、上线后第一个月"
     subtitle_en: "Three column readiness checklist, runbook design, monitoring priorities, ward rounds cadence, retrospective that lands"
     subtitle_zh: "三栏 readiness checklist、runbook 设计、监控优先级、巡房节奏、让客户记住价值的复盘会"
+
+  - num: 18
+    volume: 3
+    slug: topic-18-first-impressions-and-credibility
+    title_en: "First Impressions and Building Credibility"
+    title_zh: "第一印象与建立可信度"
+    subtitle_en: "New client first week, joining an existing team, the 15-minute exec meeting"
+    subtitle_zh: "新客户第一周、加入现有团队、15 分钟高管会议"
+
+  - num: 19
+    volume: 3
+    slug: topic-19-translating-ai-for-non-technical-stakeholders
+    title_en: "Translating AI for Non-Technical Stakeholders"
+    title_zh: "给非技术干系人翻译 AI"
+    subtitle_en: "Explaining fine tuning to a CFO, prompt injection to legal, hallucinations to a sponsor"
+    subtitle_zh: "跟 CFO 解释 fine tuning、跟法务讲 prompt injection、跟 sponsor 讲幻觉"
+
+  - num: 20
+    volume: 3
+    slug: topic-20-delivering-bad-news
+    title_en: "Delivering Bad News"
+    title_zh: "传递坏消息"
+    subtitle_en: "Delays, missed eval bars, PoC failure, scope cuts"
+    subtitle_zh: "项目延期、eval 不达标、PoC 失败、砍范围"
+
+  - num: 21
+    volume: 3
+    slug: topic-21-pushback-and-saying-no
+    title_en: "Pushback and Saying No"
+    title_zh: "Pushback 和说不"
+    subtitle_en: "Extra use cases, lowered eval bars, partner pressure to ship faster"
+    subtitle_zh: "再加 use case、降 eval 门槛、合伙人施压加快上线"
+
+  - num: 22
+    volume: 3
+    slug: topic-22-written-communication
+    title_en: "Written Communication"
+    title_zh: "书面沟通"
+    subtitle_en: "Slack and email, status updates, decision memos, exec one-pagers"
+    subtitle_zh: "Slack 和邮件、status update、决策备忘录、给高管的 one-pager"
+
+  - num: 23
+    volume: 3
+    slug: topic-23-hard-moments-in-the-room
+    title_en: "Hard Moments in the Room"
+    title_zh: "会议里的硬时刻"
+    subtitle_en: "Being challenged publicly, an emotional client, a demo that breaks, a question you can't answer"
+    subtitle_zh: "被当众质疑、客户情绪化、demo 翻车、答不上的技术问题"
+
+  - num: 24
+    volume: 3
+    slug: topic-24-building-long-term-trust
+    title_en: "Building Long-Term Trust"
+    title_zh: "长期信任构建"
+    subtitle_en: "From one project to the next, being remembered, becoming a trusted advisor"
+    subtitle_zh: "从一个项目到下一个、被记住、成为 trusted advisor"
