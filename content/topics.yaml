@@ -17,6 +17,11 @@ volumes:
     title_zh: "卷三 · 沟通进阶"
     subtitle_en: "Trust, translation, hard conversations, written craft"
     subtitle_zh: "建立信任、翻译技术、硬话怎么说、书面功夫"
+  - num: 4
+    title_en: "Vol. IV · Practical Prompt Library"
+    title_zh: "卷四 · 实用 Prompt 合集"
+    subtitle_en: "1000 ready-to-use prompts across 7 themes"
+    subtitle_zh: "7 个主题、1000 条可直接套用的 prompt"
 
 topics:
   - num: 1
@@ -210,3 +215,59 @@ topics:
     title_zh: "长期信任构建"
     subtitle_en: "From one project to the next, being remembered, becoming a trusted advisor"
     subtitle_zh: "从一个项目到下一个、被记住、成为 trusted advisor"
+
+  - num: 25
+    volume: 4
+    slug: topic-25-writing-and-editing-prompts
+    title_en: "Writing and Editing"
+    title_zh: "写作与编辑"
+    subtitle_en: "Emails, copy, rewrites, long form, headlines"
+    subtitle_zh: "邮件、文案、改写、长文、标题"
+
+  - num: 26
+    volume: 4
+    slug: topic-26-business-and-strategy-prompts
+    title_en: "Business and Strategy"
+    title_zh: "商业与战略"
+    subtitle_en: "Meetings, decks, strategy, projects, communication"
+    subtitle_zh: "会议、演示、战略、项目、沟通"
+
+  - num: 27
+    volume: 4
+    slug: topic-27-coding-and-development-prompts
+    title_en: "Coding and Development"
+    title_zh: "编程与开发"
+    subtitle_en: "Generation, debugging, explanation, refactoring, testing"
+    subtitle_zh: "生成、调试、解释、重构、测试"
+
+  - num: 28
+    volume: 4
+    slug: topic-28-data-and-analysis-prompts
+    title_en: "Data and Analysis"
+    title_zh: "数据与分析"
+    subtitle_en: "Spreadsheets, SQL, Python, cleaning, charts"
+    subtitle_zh: "表格、SQL、Python、清洗、图表"
+
+  - num: 29
+    volume: 4
+    slug: topic-29-personal-productivity-prompts
+    title_en: "Personal Productivity"
+    title_zh: "个人生产力"
+    subtitle_en: "Schedule, decisions, tasks, habits, inbox"
+    subtitle_zh: "日程、决策、任务、习惯、收件箱"
+
+  - num: 30
+    volume: 4
+    slug: topic-30-creative-content-prompts
+    title_en: "Creative and Content Creation"
+    title_zh: "创意与内容创作"
+    subtitle_en: "Short video, stories, characters, brainstorming, naming"
+    subtitle_zh: "短视频、故事、角色、头脑风暴、命名"
+
+  - num: 31
+    volume: 4
+    slug: topic-31-learning-and-education-prompts
+    title_en: "Learning and Education"
+    title_zh: "学习与教育"
+    subtitle_en: "Concepts, quizzes, study plans, memory, reading"
+    subtitle_zh: "概念、出题、学习计划、记忆、阅读"
