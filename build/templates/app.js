@@ -19,7 +19,10 @@ const STRINGS = {
     themeLabel: 'Style',
     menu: 'Menu',
     onThisPage: 'On this page',
-    close: 'Close'
+    close: 'Close',
+    searchPlaceholder: 'Search titles and teasers...',
+    searchNoResults: 'No matches.',
+    searchResultsHeading: 'Matches'
   },
   zh: {
     brandLine1: 'AI \u4ea4\u4ed8',
@@ -37,7 +40,10 @@ const STRINGS = {
     themeLabel: '\u98ce\u683c',
     menu: '\u76ee\u5f55',
     onThisPage: '\u672c\u9875\u5bfc\u822a',
-    close: '\u5173\u95ed'
+    close: '\u5173\u95ed',
+    searchPlaceholder: '\u641c\u7d22\u6807\u9898\u548c\u5bfc\u89c8\u8bf4\u660e\u2026',
+    searchNoResults: '\u6ca1\u6709\u5339\u914d\u9879',
+    searchResultsHeading: '\u5339\u914d'
   }
 };
 
@@ -180,7 +186,11 @@ function getTitle(t) { return t['title_' + currentLang]; }
 function getAltTitle(t) { return t['title_' + (currentLang === 'en' ? 'zh' : 'en')]; }
 function getBody(it) { return it['body_' + currentLang]; }
 function getSubtitle(t) { return t['subtitle_' + currentLang]; }
+function getTeaser(it) { return it['teaser_' + currentLang] || ''; }
 function topicsInVolume(volNum) { return KB.filter(t => t.volume === volNum); }
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
 
 function renderBreadcrumb() {
   const bc = document.getElementById('breadcrumb');
@@ -250,10 +260,17 @@ function renderSidebar() {
         const a = document.createElement('a');
         a.className = 'item-link';
         if (currentItem && currentItem.item === item.num) a.classList.add('active');
-        a.innerHTML = `<span class="item-num">${item.num}</span><span class="item-link-title">${getTitle(item)}</span>`;
-        a.onclick = (e) => { 
-          e.preventDefault(); 
-          showItem(topic.num, item.num); 
+        const teaser = getTeaser(item);
+        a.innerHTML = `
+          <span class="item-link-row">
+            <span class="item-num">${item.num}</span>
+            <span class="item-link-title">${escapeHtml(getTitle(item))}</span>
+          </span>
+          ${teaser ? `<span class="item-link-teaser">${escapeHtml(teaser)}</span>` : ''}
+        `;
+        a.onclick = (e) => {
+          e.preventDefault();
+          showItem(topic.num, item.num);
           closeDrawer();
         };
         items.appendChild(a);
@@ -284,30 +301,50 @@ function renderSidebar() {
 
 function renderWelcome() {
   const w = document.getElementById('welcome');
-  
+
   let volumeSections = '';
   VOLUMES.forEach(vol => {
     const topics = topicsInVolume(vol.num);
     if (topics.length === 0) return;
-    
+
     let grid = '';
     topics.forEach(topic => {
       const count = topic.items.length;
+      let itemsHtml = '';
+      topic.items.forEach(item => {
+        const teaser = getTeaser(item);
+        itemsHtml += `
+          <li class="topic-card-item"
+              data-search="${escapeHtml((getTitle(item) + ' ' + teaser + ' ' + item.num).toLowerCase())}"
+              onclick="event.stopPropagation(); showItem(${topic.num}, '${item.num}')">
+            <div class="tci-head">
+              <span class="tci-num">${item.num}</span>
+              <span class="tci-title">${escapeHtml(getTitle(item))}</span>
+            </div>
+            ${teaser ? `<div class="tci-teaser">${escapeHtml(teaser)}</div>` : ''}
+          </li>
+        `;
+      });
       grid += `
-        <div class="topic-card" onclick="showItem(${topic.num}, '${topic.items[0].num}')">
-          <div class="topic-card-num">Topic ${String(topic.num).padStart(2, '0')}</div>
-          <div class="topic-card-title">${getTitle(topic)}</div>
-          <div class="topic-card-sub">${getSubtitle(topic)}</div>
-          <div class="topic-card-count">${count} ${getStr('items')}</div>
+        <div class="topic-card"
+             data-topic="${topic.num}"
+             data-search="${escapeHtml((getTitle(topic) + ' ' + getSubtitle(topic)).toLowerCase())}">
+          <div class="topic-card-head" onclick="showItem(${topic.num}, '${topic.items[0].num}')">
+            <div class="topic-card-num">Topic ${String(topic.num).padStart(2, '0')}</div>
+            <div class="topic-card-title">${escapeHtml(getTitle(topic))}</div>
+            <div class="topic-card-sub">${escapeHtml(getSubtitle(topic))}</div>
+            <div class="topic-card-count">${count} ${getStr('items')}</div>
+          </div>
+          <ul class="topic-card-items">${itemsHtml}</ul>
         </div>
       `;
     });
-    
+
     volumeSections += `
-      <section class="welcome-volume">
+      <section class="welcome-volume" data-volume="${vol.num}">
         <div class="welcome-volume-header">
-          <div class="welcome-volume-title">${vol['title_' + currentLang]}</div>
-          <div class="welcome-volume-subtitle">${vol['subtitle_' + currentLang]}</div>
+          <div class="welcome-volume-title">${escapeHtml(vol['title_' + currentLang])}</div>
+          <div class="welcome-volume-subtitle">${escapeHtml(vol['subtitle_' + currentLang])}</div>
         </div>
         <div class="topic-grid">${grid}</div>
       </section>
@@ -320,9 +357,14 @@ function renderWelcome() {
     <p class="welcome-subtitle">${getWelcomeSubtitle()}</p>
     <div class="welcome-rule"></div>
     <p class="welcome-desc">${getStr('welcomeDesc')}</p>
+    <div class="search-no-results" id="searchNoResults" style="display:none;">${getStr('searchNoResults')}</div>
     ${volumeSections}
   `;
   w.setAttribute('data-lang', currentLang);
+
+  // Re-apply current search filter when re-rendering (e.g. on lang switch)
+  const si = document.getElementById('searchInput');
+  if (si && si.value) applySearchFilter(si.value);
 }
 
 // Extract section headers from the rendered article body to build a mini TOC.
@@ -440,6 +482,9 @@ function showItem(topicNum, itemNum) {
   currentItem = {topic: topicNum, item: itemNum};
   document.getElementById('welcome').style.display = 'none';
   document.getElementById('article').classList.add('active');
+  // Hide search bar on item pages (search is for the overview)
+  const sb = document.getElementById('searchBar');
+  if (sb) sb.style.display = 'none';
   renderArticle(topicNum, itemNum);
   renderBreadcrumb();
   renderSidebar();
@@ -451,11 +496,58 @@ function showWelcome() {
   currentItem = null;
   document.getElementById('article').classList.remove('active');
   document.getElementById('welcome').style.display = 'block';
+  const sb = document.getElementById('searchBar');
+  if (sb) sb.style.display = 'flex';
   renderWelcome();
   renderBreadcrumb();
   renderSidebar();
   window.scrollTo({top: 0, behavior: 'smooth'});
   history.replaceState(null, '', '#');
+}
+
+// === Search filter for the overview ===
+function applySearchFilter(query) {
+  const q = (query || '').trim().toLowerCase();
+  const clearBtn = document.getElementById('searchClear');
+  if (clearBtn) clearBtn.style.display = q ? 'block' : 'none';
+
+  const noRes = document.getElementById('searchNoResults');
+  const cards = document.querySelectorAll('#welcome .topic-card');
+  const vols = document.querySelectorAll('#welcome .welcome-volume');
+
+  if (!q) {
+    // reset everything
+    cards.forEach(c => {
+      c.classList.remove('search-dim');
+      c.querySelectorAll('.topic-card-item').forEach(li => li.classList.remove('search-dim'));
+    });
+    vols.forEach(v => v.style.display = '');
+    if (noRes) noRes.style.display = 'none';
+    return;
+  }
+
+  let totalMatches = 0;
+  cards.forEach(card => {
+    const topicMatch = (card.dataset.search || '').includes(q);
+    const items = card.querySelectorAll('.topic-card-item');
+    let itemMatches = 0;
+    items.forEach(li => {
+      const hit = (li.dataset.search || '').includes(q);
+      li.classList.toggle('search-dim', !hit && !topicMatch);
+      if (hit) itemMatches++;
+    });
+    const cardVisible = topicMatch || itemMatches > 0;
+    card.classList.toggle('search-dim', !cardVisible);
+    if (cardVisible) totalMatches++;
+  });
+
+  // Hide volumes that have no visible cards
+  vols.forEach(v => {
+    const visibleCards = v.querySelectorAll('.topic-card:not(.search-dim)').length;
+    v.style.display = visibleCards ? '' : 'none';
+  });
+
+  if (noRes) noRes.style.display = totalMatches === 0 ? 'block' : 'none';
 }
 
 function applyTheme(theme) {
@@ -480,6 +572,8 @@ function applyLang(lang) {
   }
   renderBreadcrumb();
   renderSidebar();
+  const si = document.getElementById('searchInput');
+  if (si) si.placeholder = getStr('searchPlaceholder');
   try { localStorage.setItem('kb-lang', lang); } catch(e) {}
 }
 
@@ -510,8 +604,33 @@ if (mb) mb.addEventListener('click', toggleDrawer);
 const ov = document.getElementById('drawerOverlay');
 if (ov) ov.addEventListener('click', closeDrawer);
 
+// Search input
+const searchInputEl = document.getElementById('searchInput');
+if (searchInputEl) {
+  searchInputEl.addEventListener('input', (e) => applySearchFilter(e.target.value));
+}
+const searchClearEl = document.getElementById('searchClear');
+if (searchClearEl) {
+  searchClearEl.addEventListener('click', () => {
+    if (searchInputEl) { searchInputEl.value = ''; searchInputEl.focus(); }
+    applySearchFilter('');
+  });
+}
+
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeDrawer();
+  if (e.key === 'Escape') {
+    closeDrawer();
+    if (searchInputEl && document.activeElement === searchInputEl) {
+      searchInputEl.value = '';
+      applySearchFilter('');
+    }
+  }
+  // Cmd/Ctrl-K focuses search
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k' && searchInputEl) {
+    e.preventDefault();
+    if (currentItem) showWelcome();
+    setTimeout(() => searchInputEl.focus(), 60);
+  }
 });
 
 function init() {

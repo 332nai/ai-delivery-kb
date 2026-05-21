@@ -183,6 +183,8 @@ def build():
                 "num": fm["num"],
                 "title_en": fm["title_en"],
                 "title_zh": fm["title_zh"],
+                "teaser_en": fm.get("teaser_en", ""),
+                "teaser_zh": fm.get("teaser_zh", ""),
                 "body_en": body_en,
                 "body_zh": body_zh,
             })

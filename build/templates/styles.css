@@ -1364,3 +1364,186 @@ body {
   .welcome-title { font-size: 26px; }
   .mobile-bar { padding: 0 12px; gap: 10px; }
 }
+
+/* ===================================================================
+   Navigation enhancements: search bar, sidebar teasers, topic-card
+   sub-item lists, search filter states. (Added in v4 redesign.)
+   =================================================================== */
+
+/* --- Search bar at top of overview --- */
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 28px;
+  padding: 10px 14px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+[data-theme="terminal"] .search-bar { border-radius: 2px; background: var(--paper); }
+.search-bar:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(168, 50, 50, 0.08);
+}
+[data-theme="atelier"] .search-bar:focus-within { box-shadow: 0 0 0 3px rgba(29, 97, 96, 0.08); }
+[data-theme="terminal"] .search-bar:focus-within { box-shadow: 0 0 0 1px var(--accent); }
+.search-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--ink-muted);
+}
+.search-bar input {
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-family: var(--sans);
+  font-size: 15px;
+  color: var(--ink);
+  padding: 4px 0;
+  min-width: 0;
+}
+.search-bar input::placeholder { color: var(--ink-muted); }
+.search-clear {
+  width: 22px;
+  height: 22px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--rule);
+  color: var(--ink-soft);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+}
+.search-clear:hover { background: var(--ink-muted); color: var(--bg); }
+.search-no-results {
+  margin: 24px 0;
+  padding: 24px;
+  text-align: center;
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--ink-muted);
+  border: 1px dashed var(--rule);
+  border-radius: 6px;
+}
+
+/* --- Topic card with expandable sub-item list --- */
+.topic-card {
+  display: flex;
+  flex-direction: column;
+  cursor: default; /* override old card pointer; head still clickable */
+}
+.topic-card-head { cursor: pointer; }
+.topic-card-head:hover .topic-card-title { color: var(--accent); }
+.topic-card-items {
+  list-style: none;
+  padding: 12px 0 4px;
+  margin: 14px 0 0;
+  border-top: 1px solid var(--rule-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.topic-card-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 10px;
+  margin: 0 -10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+[data-theme="terminal"] .topic-card-item { border-radius: 2px; }
+.topic-card-item:hover {
+  background: var(--bg);
+}
+[data-theme="atelier"] .topic-card-item:hover { background: var(--bg-elevated); }
+[data-theme="terminal"] .topic-card-item:hover { background: var(--paper); }
+.tci-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.tci-num {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.tci-title {
+  font-family: var(--serif);
+  font-size: 14px;
+  line-height: 1.35;
+  color: var(--ink);
+  font-weight: 500;
+}
+[data-theme="terminal"] .tci-title { font-family: var(--mono); font-size: 13px; font-weight: 500; }
+[data-lang="zh"] .tci-title { font-family: var(--serif); }
+.tci-teaser {
+  font-family: var(--sans);
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--ink-muted);
+  padding-left: 32px; /* align under title, past num */
+}
+[data-theme="terminal"] .tci-teaser { font-family: var(--mono); font-size: 11px; }
+[data-lang="zh"] .tci-teaser { font-size: 12.5px; line-height: 1.55; }
+
+/* --- Sidebar: teaser below each item link --- */
+.item-link {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 2px;
+  padding: 6px 10px;
+}
+.item-link-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.item-link-teaser {
+  display: block;
+  font-family: var(--sans);
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--ink-muted);
+  padding-left: 32px;
+  margin-top: 1px;
+}
+[data-theme="terminal"] .item-link-teaser { font-family: var(--mono); font-size: 10px; }
+.item-link.active .item-link-teaser { color: var(--bg); opacity: 0.75; }
+/* hide teaser when sidebar item is in a closed topic to save space (already hidden by max-height clip) */
+/* On smaller widths or when many topics, allow item-list to grow taller */
+.topic.open .item-list { max-height: 2400px; }
+
+/* --- Search filter visual states --- */
+.search-dim { display: none !important; }
+
+/* --- Make breadcrumb-home icon align nicely on first-page state --- */
+.breadcrumb a, .breadcrumb span.crumb {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* --- When overview has many cards, prefer 2-column grid on wide screens --- */
+@media (min-width: 1200px) {
+  .topic-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+}
+@media (min-width: 1700px) {
+  .topic-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
